@@ -21,7 +21,7 @@ namespace Panda.HotelBooking.Controllers
         }
 
         public async Task<IActionResult> Index()
-        {
+        {                
             return View(await _context.Cities.Include(x => x.CreatedUser).ToListAsync());
         }
 

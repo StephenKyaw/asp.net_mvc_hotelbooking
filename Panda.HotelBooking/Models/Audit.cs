@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Audit
+    public abstract class Audit
     {
         [ScaffoldColumn(false)]
         [Display(Name ="Created User")]
