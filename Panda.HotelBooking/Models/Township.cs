@@ -8,6 +8,7 @@
         [Key]
         public string TownshipId { get; set; }
 
+        [Display(Name ="Township Name")]
         [Required(ErrorMessage = "Require Township Name.")]
         public string TownshipName { get; set; }
 

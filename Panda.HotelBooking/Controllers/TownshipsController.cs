@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panda.HotelBooking.Data;
@@ -9,20 +10,23 @@ namespace Panda.HotelBooking.Controllers
     public class TownshipsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public TownshipsController(ApplicationDbContext context)
+        public TownshipsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
-        // GET: Townships
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Townships.Include(t => t.City);
+            var applicationDbContext = _context.Townships
+                .Include(t => t.City)
+                .Include(x => x.CreatedUser);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Townships/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Townships == null)
@@ -41,32 +45,34 @@ namespace Panda.HotelBooking.Controllers
             return View(township);
         }
 
-        // GET: Townships/Create
         public IActionResult Create()
         {
             ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName");
             return View();
         }
 
-        // POST: Townships/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("TownshipName,CityId")] Township township)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+
                 township.TownshipId = Guid.NewGuid().ToString();
+                township.CreatedUserId = user.Id;
+                township.CreatedDate = DateTime.Now;
+
                 _context.Add(township);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName", township.CityId);
+
             return View(township);
         }
 
-        // GET: Townships/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || _context.Townships == null)
@@ -83,9 +89,6 @@ namespace Panda.HotelBooking.Controllers
             return View(township);
         }
 
-        // POST: Townships/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("TownshipId,TownshipName,CityId")] Township township)
@@ -99,8 +102,21 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    _context.Update(township);
-                    await _context.SaveChangesAsync();
+                    var updateTownShip = await _context.Townships.FindAsync(township.TownshipId);
+
+                    if (updateTownShip != null)
+                    {
+                        var user = await _userManager.GetUserAsync(User);
+
+                        updateTownShip.TownshipName = township.TownshipName;
+                        updateTownShip.CityId = township.CityId;
+                        updateTownShip.UpdatedUserId = user.Id;
+                        updateTownShip.UpdatedDate = DateTime.Now;
+
+                        _context.Update(updateTownShip);
+                        await _context.SaveChangesAsync();
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +135,6 @@ namespace Panda.HotelBooking.Controllers
             return View(township);
         }
 
-        // GET: Townships/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null || _context.Townships == null)
@@ -138,7 +153,8 @@ namespace Panda.HotelBooking.Controllers
             return View(township);
         }
 
-        // POST: Townships/Delete/5
+
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -152,14 +168,14 @@ namespace Panda.HotelBooking.Controllers
             {
                 _context.Townships.Remove(township);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TownshipExists(string id)
         {
-          return _context.Townships.Any(e => e.TownshipId == id);
+            return _context.Townships.Any(e => e.TownshipId == id);
         }
     }
 }

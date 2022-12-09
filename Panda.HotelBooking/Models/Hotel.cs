@@ -36,5 +36,7 @@
         public string TownshipId { get; set; }
 
         public Township Township { get; set; }
+
+        public ICollection<Room> Rooms { get; set; }
     }
 }

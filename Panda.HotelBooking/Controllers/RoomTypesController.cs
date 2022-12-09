@@ -6,85 +6,89 @@ using Panda.HotelBooking.Models;
 
 namespace Panda.HotelBooking.Controllers
 {
-    public class CitiesController : Controller
+    public class RoomTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public CitiesController(ApplicationDbContext context, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+        public RoomTypesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cities.Include(x => x.CreatedUser).ToListAsync());
+            ViewBag.Title = "RoomType Listing";
+
+              return View(await _context.RoomTypes.Include(x => x.CreatedUser).ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.Cities == null)
+            if (id == null || _context.RoomTypes == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.CityId == id);
-            if (city == null)
+            var roomType = await _context.RoomTypes
+                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
+            if (roomType == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(roomType);
         }
 
         public IActionResult Create()
         {
+            ViewBag.Title = "RoomType Create";
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CityName")] City city)
+        public async Task<IActionResult> Create([Bind("RoomTypeId,RoomTypeName")] RoomType roomType)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-                city.CityId = Guid.NewGuid().ToString();
-                city.CreatedDate = DateTime.Now;
-                city.CreatedUserId = user.Id;
 
-                _context.Add(city);
+                roomType.RoomTypeId = Guid.NewGuid().ToString();
+                roomType.CreatedUserId = user.Id;
+                roomType.CreatedDate = DateTime.Now;
+
+                _context.Add(roomType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            return View(roomType);
         }
+
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.Cities == null)
+            ViewBag.Title = "RoomType Update";
+
+            if (id == null || _context.RoomTypes == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
-
-            if (city == null)
+            var roomType = await _context.RoomTypes.FindAsync(id);
+            if (roomType == null)
             {
                 return NotFound();
             }
-            return View(city);
+            return View(roomType);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, City city)
+        public async Task<IActionResult> Edit(string id, [Bind("RoomTypeId,RoomTypeName")] RoomType roomType)
         {
-            if (id != city.CityId)
+            if (id != roomType.RoomTypeId)
             {
                 return NotFound();
             }
@@ -93,25 +97,25 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    var updateCity = await _context.Cities.FindAsync(city.CityId);
+                    var updateRoomType = await _context.RoomTypes.FindAsync(roomType.RoomTypeId);
 
-                    if (updateCity != null)
+                    if(updateRoomType != null)
                     {
                         var user = await _userManager.GetUserAsync(User);
 
-                        updateCity.CityName = city.CityName;
-                        updateCity.UpdatedUserId = user.Id;
-                        updateCity.UpdatedDate = DateTime.Now;
+                        updateRoomType.UpdatedUserId = user.Id;
+                        updateRoomType.UpdatedDate = DateTime.Now;
+                        updateRoomType.RoomTypeName = roomType.RoomTypeName;
 
-                        _context.Update(updateCity);
-
+                        _context.Update(updateRoomType);
                         await _context.SaveChangesAsync();
                     }
 
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CityExists(city.CityId))
+                    if (!RoomTypeExists(roomType.RoomTypeId))
                     {
                         return NotFound();
                     }
@@ -122,47 +126,49 @@ namespace Panda.HotelBooking.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            return View(roomType);
         }
 
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.Cities == null)
+            ViewBag.Title = "RoomType Delete";
+
+            if (id == null || _context.RoomTypes == null)
             {
                 return NotFound();
             }
 
-            var city = await _context.Cities
-                .FirstOrDefaultAsync(m => m.CityId == id);
-            if (city == null)
+            var roomType = await _context.RoomTypes
+                .FirstOrDefaultAsync(m => m.RoomTypeId == id);
+            if (roomType == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(roomType);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Cities == null)
+            if (_context.RoomTypes == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Cities'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.RoomTypes'  is null.");
             }
-            var city = await _context.Cities.FindAsync(id);
-            if (city != null)
+            var roomType = await _context.RoomTypes.FindAsync(id);
+            if (roomType != null)
             {
-                _context.Cities.Remove(city);
+                _context.RoomTypes.Remove(roomType);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CityExists(string id)
+        private bool RoomTypeExists(string id)
         {
-            return _context.Cities.Any(e => e.CityId == id);
+          return _context.RoomTypes.Any(e => e.RoomTypeId == id);
         }
     }
 }

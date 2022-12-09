@@ -1,39 +1,48 @@
 ﻿@model Panda.HotelBooking.Models.Township
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Township Update";
 }
 
-<h1>Edit</h1>
+<div class="bg-light">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
+            <li class="breadcrumb-item p-2 active " aria-current="page">Township Update</li>
+        </ol>
+    </nav>
+</div>
 
-<h4>Township</h4>
-<hr />
+<p class="text-secondary fw-bolder">Township Update</p>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TownshipId" />
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="TownshipName" class="control-label"></label>
                 <input asp-for="TownshipName" class="form-control" />
                 <span asp-validation-for="TownshipName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                    <option value="">Select One</option>
+                </select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group d-flex">
+                <input type="submit" value="Save" class="btn btn-success me-2" />
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

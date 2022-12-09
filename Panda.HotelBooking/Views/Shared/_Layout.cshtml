@@ -42,27 +42,28 @@
             <div class="col-lg-2 col-md-2 col-sm-12">
                 <ul class="list-group shadow-sm">
                     <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-gear"></i> System Settings</span>
-                        <ul class="list-group mt-2 border-0">
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Users</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Applicaiton Settings</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-building-check"></i> Hotel Management</span>
-                        <ul class="list-group mt-2 border-0">
+                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#master_data_setup" aria-expanded="false"  class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-gear"></i> Master Data Setup</span>
+                        <ul id="master_data_setup" class="list-group mt-2 border-0 collapse show">
                             <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Cities" asp-action="Index">City</a></li>
                             <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Townships" asp-action="Index">Township</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Hotels" asp-action="Index">Hotel</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Rooms</a></li>
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="RoomTypes" asp-action="Index">Room Type</a></li>
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="BedTypes" asp-action="Index">Bed Type</a></li>
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="FacilityTypes" asp-action="Index">Facility Type</a></li>
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Users" asp-action="Index">Users</a></li>
                         </ul>
                     </li>
 
                     <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-boxes"></i> Booking Information</span>
-                        <ul class="list-group mt-2 border-0">
+                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#hotel_management" aria-expanded="false" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-building-check"></i> Hotel Management</span>
+                        <ul id="hotel_management" class="list-group mt-2 border-0 collapse show">
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a></li>
+                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Rooms" asp-action="Index">Rooms</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
+                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#booking_info" aria-expanded="false" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-boxes"></i> Booking Information</span>
+                        <ul id="booking_info" class="list-group mt-2 border-0 collapse show">
                             <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>
                             <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Rooms</a></li>
                             <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>

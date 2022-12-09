@@ -224,6 +224,44 @@ namespace Panda.HotelBooking.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Panda.HotelBooking.Models.BedType", b =>
+                {
+                    b.Property<string>("BedTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BedTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BedTypeId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("BedTypes");
+                });
+
             modelBuilder.Entity("Panda.HotelBooking.Models.City", b =>
                 {
                     b.Property<string>("CityId")
@@ -237,6 +275,44 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CityId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.FacilityType", b =>
+                {
+                    b.Property<string>("FacilityTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FacilityTypeName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -251,11 +327,15 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CityId");
+                    b.HasKey("FacilityTypeId");
 
-                    b.ToTable("Cities");
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("FacilityTypes");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Hotel", b =>
@@ -274,7 +354,7 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -312,15 +392,174 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("HotelId");
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("CreatedUserId");
+
                     b.HasIndex("TownshipId");
 
+                    b.HasIndex("UpdatedUserId");
+
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
+                {
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HotelId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("RoomTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomBed", b =>
+                {
+                    b.Property<string>("RoomBedId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BedTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("NumberOfBeds")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomBedId");
+
+                    b.HasIndex("BedTypeId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomBeds");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomFacility", b =>
+                {
+                    b.Property<string>("RoomFacilityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FacilityTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomFacilityId");
+
+                    b.HasIndex("FacilityTypeId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomFacilities");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomPhoto", b =>
+                {
+                    b.Property<string>("RoomPhotoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PhotoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomPhotoId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomPhotos");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomType", b =>
+                {
+                    b.Property<string>("RoomTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RoomTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomTypeId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
+
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Township", b =>
@@ -336,7 +575,7 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -354,11 +593,15 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TownshipId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CreatedUserId");
+
+                    b.HasIndex("UpdatedUserId");
 
                     b.ToTable("Townships");
                 });
@@ -414,11 +657,60 @@ namespace Panda.HotelBooking.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Panda.HotelBooking.Models.BedType", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("UpdatedUser");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.City", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("UpdatedUser");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.FacilityType", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("UpdatedUser");
+                });
+
             modelBuilder.Entity("Panda.HotelBooking.Models.Hotel", b =>
                 {
                     b.HasOne("Panda.HotelBooking.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
 
                     b.HasOne("Panda.HotelBooking.Models.Township", "Township")
                         .WithMany()
@@ -426,9 +718,104 @@ namespace Panda.HotelBooking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
                     b.Navigation("City");
 
+                    b.Navigation("CreatedUser");
+
                     b.Navigation("Township");
+
+                    b.Navigation("UpdatedUser");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Panda.HotelBooking.Models.Hotel", "Hotel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Panda.HotelBooking.Models.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
+
+                    b.Navigation("UpdatedUser");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomBed", b =>
+                {
+                    b.HasOne("Panda.HotelBooking.Models.BedType", "BedType")
+                        .WithMany()
+                        .HasForeignKey("BedTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Panda.HotelBooking.Models.Room", "Room")
+                        .WithMany("RoomBeds")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("BedType");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomFacility", b =>
+                {
+                    b.HasOne("Panda.HotelBooking.Models.FacilityType", "FacilityType")
+                        .WithMany()
+                        .HasForeignKey("FacilityTypeId");
+
+                    b.HasOne("Panda.HotelBooking.Models.Room", "Room")
+                        .WithMany("RoomFacilities")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("FacilityType");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomPhoto", b =>
+                {
+                    b.HasOne("Panda.HotelBooking.Models.Room", "Room")
+                        .WithMany("RoomPhotos")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.RoomType", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("UpdatedUser");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Township", b =>
@@ -439,12 +826,38 @@ namespace Panda.HotelBooking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                        .WithMany()
+                        .HasForeignKey("CreatedUserId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                        .WithMany()
+                        .HasForeignKey("UpdatedUserId");
+
                     b.Navigation("City");
+
+                    b.Navigation("CreatedUser");
+
+                    b.Navigation("UpdatedUser");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.City", b =>
                 {
                     b.Navigation("Townships");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.Hotel", b =>
+                {
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
+                {
+                    b.Navigation("RoomBeds");
+
+                    b.Navigation("RoomFacilities");
+
+                    b.Navigation("RoomPhotos");
                 });
 #pragma warning restore 612, 618
         }
