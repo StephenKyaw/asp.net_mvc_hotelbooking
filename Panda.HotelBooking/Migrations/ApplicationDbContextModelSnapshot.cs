@@ -22,10 +22,114 @@ namespace Panda.HotelBooking.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.ApplicationRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -49,35 +153,11 @@ namespace Panda.HotelBooking.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Panda.HotelBooking.Models.ApplicationUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -139,91 +219,6 @@ namespace Panda.HotelBooking.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
-
             modelBuilder.Entity("Panda.HotelBooking.Models.BedType", b =>
                 {
                     b.Property<string>("BedTypeId")
@@ -236,8 +231,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -250,8 +245,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("BedTypeId");
 
@@ -274,8 +269,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -288,8 +283,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CityId");
 
@@ -308,8 +303,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FacilityTypeName")
                         .IsRequired()
@@ -326,8 +321,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("FacilityTypeId");
 
@@ -353,8 +348,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -391,8 +386,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("HotelId");
 
@@ -415,8 +410,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HotelId")
                         .IsRequired()
@@ -446,8 +441,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RoomId");
 
@@ -532,8 +527,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -550,8 +545,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RoomTypeId");
 
@@ -574,8 +569,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("CreatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -592,8 +587,8 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("TownshipId");
 
@@ -606,51 +601,51 @@ namespace Panda.HotelBooking.Migrations
                     b.ToTable("Townships");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -659,11 +654,11 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.BedType", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -674,11 +669,11 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.City", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -689,11 +684,11 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.FacilityType", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -708,7 +703,7 @@ namespace Panda.HotelBooking.Migrations
                         .WithMany()
                         .HasForeignKey("CityId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
@@ -718,7 +713,7 @@ namespace Panda.HotelBooking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -733,7 +728,7 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
@@ -749,7 +744,7 @@ namespace Panda.HotelBooking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -805,11 +800,11 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.RoomType", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 
@@ -826,11 +821,11 @@ namespace Panda.HotelBooking.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "CreatedUser")
                         .WithMany()
                         .HasForeignKey("CreatedUserId");
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UpdatedUser")
+                    b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
                         .HasForeignKey("UpdatedUserId");
 

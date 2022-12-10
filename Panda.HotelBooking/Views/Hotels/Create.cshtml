@@ -1,71 +1,96 @@
 ﻿@model Panda.HotelBooking.Models.Hotel
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = ViewBag.Title;
 }
 
-<h1>Create</h1>
+<div class="bg-light">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
+            <li class="breadcrumb-item p-2 active " aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
 
-<h4>Hotel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+<p class="text-secondary fw-bolder">@ViewBag.Title</p>
+
+
+<div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Phone_1" class="control-label"></label>
                 <input asp-for="Phone_1" class="form-control" />
                 <span asp-validation-for="Phone_1" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Phone_2" class="control-label"></label>
                 <input asp-for="Phone_2" class="form-control" />
                 <span asp-validation-for="Phone_2" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="Phone_3" class="control-label"></label>
                 <input asp-for="Phone_3" class="form-control" />
                 <span asp-validation-for="Phone_3" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                    <option value="">Select One</option>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="TownshipId" class="control-label"></label>
-                <select asp-for="TownshipId" class ="form-control" asp-items="ViewBag.TownshipId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+        <div class="row mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <label asp-for="TownshipId" class="control-label"></label>
+                <select asp-for="TownshipId" class="form-control" asp-items="ViewBag.TownshipId">
+                    <option value="">Select One</option>
+                </select>
+                <span asp-validation-for="TownshipId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group mb-3 d-flex">
+            <input type="submit" value="Create" class="btn btn-success me-2" />
+            <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

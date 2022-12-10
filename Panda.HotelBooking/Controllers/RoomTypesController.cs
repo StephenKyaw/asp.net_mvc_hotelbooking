@@ -9,9 +9,9 @@ namespace Panda.HotelBooking.Controllers
     public class RoomTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public RoomTypesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public RoomTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;

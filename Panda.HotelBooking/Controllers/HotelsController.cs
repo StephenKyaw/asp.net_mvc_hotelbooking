@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panda.HotelBooking.Data;
-using Panda.HotelBooking.Models;
 
 namespace Panda.HotelBooking.Controllers
 {
     public class HotelsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HotelsController(ApplicationDbContext context)
+        public HotelsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
-        // GET: Hotels
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Hotels.Include(h => h.City).Include(h => h.Township);
+            ViewBag.Title = "Hotel Listing";
+
+            var applicationDbContext = _context.Hotels
+                .Include(h => h.City)
+                .Include(h => h.Township)
+                .Include(x => x.CreatedUser);
+
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Hotels/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.Hotels == null)
@@ -46,36 +48,42 @@ namespace Panda.HotelBooking.Controllers
             return View(hotel);
         }
 
-        // GET: Hotels/Create
         public IActionResult Create()
         {
+            ViewBag.Title = "Hotel Create";
+
             ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName");
             ViewData["TownshipId"] = new SelectList(_context.Townships, "TownshipId", "TownshipName");
+
             return View();
         }
 
-        // POST: Hotels/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId")] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+
                 hotel.HotelId = Guid.NewGuid().ToString();
+                hotel.CreatedUserId = user.Id;
+                hotel.CreatedDate = DateTime.Now;
+
                 _context.Add(hotel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CityId"] = new SelectList(_context.Cities, "CityId", "CityName", hotel.CityId);
             ViewData["TownshipId"] = new SelectList(_context.Townships, "TownshipId", "TownshipName", hotel.TownshipId);
+
             return View(hotel);
         }
 
-        // GET: Hotels/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.Title = "Hotel Update";
+
             if (id == null || _context.Hotels == null)
             {
                 return NotFound();
@@ -91,9 +99,6 @@ namespace Panda.HotelBooking.Controllers
             return View(hotel);
         }
 
-        // POST: Hotels/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("HotelId,Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId")] Hotel hotel)
@@ -107,8 +112,30 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    _context.Update(hotel);
-                    await _context.SaveChangesAsync();
+                    var hotelUpdate = await _context.Hotels.FindAsync(hotel.HotelId);
+
+                    if (hotelUpdate != null)
+                    {
+                        var user = await _userManager.GetUserAsync(User);
+
+                        hotelUpdate.UpdatedUserId = user.Id;
+                        hotelUpdate.UpdatedDate = DateTime.Now;
+                        hotelUpdate.Name = hotel.Name;
+                        hotelUpdate.Description = hotel.Description;
+                        hotelUpdate.Address = hotel.Address;
+                        hotelUpdate.Email = hotel.Email;
+                        hotelUpdate.Phone_1 = hotel.Phone_1;
+                        hotelUpdate.Phone_2 = hotel.Phone_2;
+                        hotelUpdate.Phone_3 = hotel.Phone_3;
+                        hotelUpdate.CityId = hotel.CityId;
+                        hotelUpdate.TownshipId = hotel.TownshipId;
+
+
+                        _context.Update(hotelUpdate);
+                        await _context.SaveChangesAsync();
+                    }
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -128,9 +155,10 @@ namespace Panda.HotelBooking.Controllers
             return View(hotel);
         }
 
-        // GET: Hotels/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            ViewBag.Title = "Hotel Delete";
+
             if (id == null || _context.Hotels == null)
             {
                 return NotFound();
@@ -148,7 +176,6 @@ namespace Panda.HotelBooking.Controllers
             return View(hotel);
         }
 
-        // POST: Hotels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -162,14 +189,14 @@ namespace Panda.HotelBooking.Controllers
             {
                 _context.Hotels.Remove(hotel);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool HotelExists(string id)
         {
-          return _context.Hotels.Any(e => e.HotelId == id);
+            return _context.Hotels.Any(e => e.HotelId == id);
         }
     }
 }

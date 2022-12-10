@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panda.HotelBooking.Data;
 using Panda.HotelBooking.Models;
@@ -13,19 +9,20 @@ namespace Panda.HotelBooking.Controllers
     public class BedTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BedTypesController(ApplicationDbContext context)
+        public BedTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: BedTypes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.BedTypes.ToListAsync());
+            ViewBag.Title = "BetType Listing";
+            return View(await _context.BedTypes.Include(x => x.CreatedUser).ToListAsync());
         }
 
-        // GET: BedTypes/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.BedTypes == null)
@@ -43,31 +40,36 @@ namespace Panda.HotelBooking.Controllers
             return View(bedType);
         }
 
-        // GET: BedTypes/Create
         public IActionResult Create()
         {
+            ViewBag.Title = "BetType Create";
             return View();
         }
 
-        // POST: BedTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BedTypeId,BedTypeName")] BedType bedType)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+
+                bedType.BedTypeId = Guid.NewGuid().ToString();
+                bedType.CreatedUserId = user.Id;
+                bedType.CreatedDate = DateTime.Now;
+
                 _context.Add(bedType);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(bedType);
         }
 
-        // GET: BedTypes/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.Title = "BetType Update";
+
             if (id == null || _context.BedTypes == null)
             {
                 return NotFound();
@@ -81,9 +83,6 @@ namespace Panda.HotelBooking.Controllers
             return View(bedType);
         }
 
-        // POST: BedTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("BedTypeId,BedTypeName")] BedType bedType)
@@ -97,8 +96,21 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    _context.Update(bedType);
-                    await _context.SaveChangesAsync();
+                    var bedTypeUpdate = await _context.BedTypes.FindAsync(id);
+
+                    if (bedTypeUpdate != null)
+                    {
+                        var user = await _userManager.GetUserAsync(User);
+
+                        bedTypeUpdate.UpdatedUserId = user.Id;
+                        bedTypeUpdate.UpdatedDate = DateTime.Now;
+                        bedTypeUpdate.BedTypeName = bedType.BedTypeName;
+
+                        _context.Update(bedTypeUpdate);
+                        await _context.SaveChangesAsync();
+                    }
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,9 +128,10 @@ namespace Panda.HotelBooking.Controllers
             return View(bedType);
         }
 
-        // GET: BedTypes/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            ViewBag.Title = "BetType Delete";
+
             if (id == null || _context.BedTypes == null)
             {
                 return NotFound();
@@ -134,7 +147,6 @@ namespace Panda.HotelBooking.Controllers
             return View(bedType);
         }
 
-        // POST: BedTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -148,14 +160,14 @@ namespace Panda.HotelBooking.Controllers
             {
                 _context.BedTypes.Remove(bedType);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BedTypeExists(string id)
         {
-          return _context.BedTypes.Any(e => e.BedTypeId == id);
+            return _context.BedTypes.Any(e => e.BedTypeId == id);
         }
     }
 }

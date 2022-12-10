@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Panda.HotelBooking.Data;
 using Panda.HotelBooking.Models;
@@ -13,19 +9,19 @@ namespace Panda.HotelBooking.Controllers
     public class FacilityTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public FacilityTypesController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public FacilityTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: FacilityTypes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.FacilityTypes.ToListAsync());
+            ViewBag.Title = "Facility Type Listing";
+            return View(await _context.FacilityTypes.Include(x => x.CreatedUser).ToListAsync());
         }
 
-        // GET: FacilityTypes/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null || _context.FacilityTypes == null)
@@ -43,21 +39,24 @@ namespace Panda.HotelBooking.Controllers
             return View(facilityType);
         }
 
-        // GET: FacilityTypes/Create
         public IActionResult Create()
         {
+            ViewBag.Title = "Facility Type Create";
             return View();
         }
 
-        // POST: FacilityTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FacilityTypeId,FacilityTypeName")] FacilityType facilityType)
         {
             if (ModelState.IsValid)
             {
+                var user =await _userManager.GetUserAsync(User);
+
+                facilityType.FacilityTypeId = Guid.NewGuid().ToString();
+                facilityType.CreatedUserId = user.Id;
+                facilityType.CreatedDate= DateTime.Now;
+
                 _context.Add(facilityType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -65,9 +64,10 @@ namespace Panda.HotelBooking.Controllers
             return View(facilityType);
         }
 
-        // GET: FacilityTypes/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.Title = "Facility Type Update";
+
             if (id == null || _context.FacilityTypes == null)
             {
                 return NotFound();
@@ -81,9 +81,6 @@ namespace Panda.HotelBooking.Controllers
             return View(facilityType);
         }
 
-        // POST: FacilityTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("FacilityTypeId,FacilityTypeName")] FacilityType facilityType)
@@ -97,8 +94,19 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    _context.Update(facilityType);
-                    await _context.SaveChangesAsync();
+                    var facilityTypeUpdate = await _context.FacilityTypes.FindAsync(id);
+
+                    if(facilityTypeUpdate != null)
+                    {
+                        var user = await _userManager.GetUserAsync(User);
+
+                        facilityTypeUpdate.UpdatedUserId = user.Id;
+                        facilityTypeUpdate.UpdatedDate = DateTime.Now;
+                        facilityTypeUpdate.FacilityTypeName = facilityType.FacilityTypeName;
+
+                        _context.Update(facilityTypeUpdate);
+                        await _context.SaveChangesAsync();
+                    }                  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,9 +124,10 @@ namespace Panda.HotelBooking.Controllers
             return View(facilityType);
         }
 
-        // GET: FacilityTypes/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            ViewBag.Title = "Facility Type Delete";
+
             if (id == null || _context.FacilityTypes == null)
             {
                 return NotFound();
@@ -134,7 +143,6 @@ namespace Panda.HotelBooking.Controllers
             return View(facilityType);
         }
 
-        // POST: FacilityTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -148,14 +156,14 @@ namespace Panda.HotelBooking.Controllers
             {
                 _context.FacilityTypes.Remove(facilityType);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FacilityTypeExists(string id)
         {
-          return _context.FacilityTypes.Any(e => e.FacilityTypeId == id);
+            return _context.FacilityTypes.Any(e => e.FacilityTypeId == id);
         }
     }
 }

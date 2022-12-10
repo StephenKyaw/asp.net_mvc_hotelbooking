@@ -13,7 +13,7 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -27,7 +27,7 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -54,7 +54,7 @@ namespace Panda.HotelBooking.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -75,7 +75,7 @@ namespace Panda.HotelBooking.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -94,10 +94,10 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,8 +114,8 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,9 +138,9 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -160,9 +160,9 @@ namespace Panda.HotelBooking.Migrations
                 {
                     BedTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BedTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -188,9 +188,9 @@ namespace Panda.HotelBooking.Migrations
                 {
                     CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -216,9 +216,9 @@ namespace Panda.HotelBooking.Migrations
                 {
                     FacilityTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FacilityTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -244,9 +244,9 @@ namespace Panda.HotelBooking.Migrations
                 {
                     RoomTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RoomTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -273,9 +273,9 @@ namespace Panda.HotelBooking.Migrations
                     TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TownshipName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -315,9 +315,9 @@ namespace Panda.HotelBooking.Migrations
                     Phone_3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
@@ -358,9 +358,9 @@ namespace Panda.HotelBooking.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Rate = table.Column<double>(type: "float", nullable: false),
                     NumberOfRooms = table.Column<int>(type: "int", nullable: false),
-                    CreatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)

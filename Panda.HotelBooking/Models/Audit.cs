@@ -1,6 +1,5 @@
 ﻿namespace Panda.HotelBooking.Models
 {
-    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,10 +7,10 @@
     {
         [ScaffoldColumn(false)]
         [Display(Name ="Created User")]
-        public string CreatedUserId { get; set; }
+        public Guid? CreatedUserId { get; set; }
 
         [ForeignKey("CreatedUserId")]
-        public IdentityUser CreatedUser { get; set; }
+        public ApplicationUser CreatedUser { get; set; }
 
         [ScaffoldColumn(false)]
         [Display(Name = "Created Date")]
@@ -19,17 +18,17 @@
         
         [ScaffoldColumn(false)]
         [Display(Name = "Updated User")]
-        public string UpdatedUserId { get; set; }
+        public Guid? UpdatedUserId { get; set; }
         
         [ForeignKey("UpdatedUserId")]
-        public IdentityUser UpdatedUser { get; set; }
+        public ApplicationUser UpdatedUser { get; set; }
 
         [ScaffoldColumn(false)]
         [Display(Name = "Updated Date")]
         public DateTime? UpdatedDate { get; set; }
 
         [ScaffoldColumn(false)]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [ScaffoldColumn(false)]
         [Timestamp]

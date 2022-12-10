@@ -1,10 +1,12 @@
-﻿namespace Panda.HotelBooking.Data
+﻿using Microsoft.EntityFrameworkCore;
+using Panda.HotelBooking.Models;
+namespace Panda.HotelBooking.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Panda.HotelBooking.Models;
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -22,5 +24,6 @@
         public DbSet<RoomBed> RoomBeds { get; set; }
         public DbSet<RoomPhoto> RoomPhotos { get; set; }    
         public DbSet<RoomFacility> RoomFacilities { get; set; }
+        public DbSet<Panda.HotelBooking.Models.ApplicationRole> ApplicationRole { get; set; }
     }
 }

@@ -26,7 +26,7 @@
         public string Phone_3 { get; set; }
 
         [Display(Name = "City Name")]
-        //[Required(ErrorMessage = "Require City Location.")]
+        [Required(ErrorMessage = "Require City Location.")]
         public string CityId { get; set; }
 
         public City City { get; set; }

@@ -10,9 +10,9 @@ namespace Panda.HotelBooking.Controllers
     public class TownshipsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public TownshipsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public TownshipsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
