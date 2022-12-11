@@ -12,65 +12,18 @@
 </div>
 <p class="text-secondary fw-bolder">@ViewBag.Title</p>
 <div>
-    <form asp-action="Edit">
+    <form enctype="multipart/form-data" asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="HotelId" />
         <div class="row mb-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Phone_1" class="control-label"></label>
-                <input asp-for="Phone_1" class="form-control" />
-                <span asp-validation-for="Phone_1" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Phone_2" class="control-label"></label>
-                <input asp-for="Phone_2" class="form-control" />
-                <span asp-validation-for="Phone_2" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <label asp-for="Phone_3" class="control-label"></label>
-                <input asp-for="Phone_3" class="form-control" />
-                <span asp-validation-for="Phone_3" class="text-danger"></span>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-12">
                 <label asp-for="CityId" class="control-label"></label>
                 <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
                     <option value="">Select One</option>
                 </select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-4 col-sm-12">
                 <label asp-for="TownshipId" class="control-label"></label>
                 <select asp-for="TownshipId" class="form-control" asp-items="ViewBag.TownshipId">
                     <option value="">Select One</option>
@@ -78,6 +31,75 @@
                 <span asp-validation-for="TownshipId" class="text-danger"></span>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Phone_1" class="control-label"></label>
+                <input asp-for="Phone_1" class="form-control" />
+                <span asp-validation-for="Phone_1" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Phone_2" class="control-label"></label>
+                <input asp-for="Phone_2" class="form-control" />
+                <span asp-validation-for="Phone_2" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="Phone_3" class="control-label"></label>
+                <input asp-for="Phone_3" class="form-control" />
+                <span asp-validation-for="Phone_3" class="text-danger"></span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="FormFiles" class="control-label"></label>
+                <input asp-for="FormFiles" type="file" multiple class="form-control" />
+                <span asp-validation-for="FormFiles" class="text-danger"></span>
+            </div>
+        </div>
+        @{
+            if (Model.HotelPhotos != null && Model.HotelPhotos.Count > 0)
+            {
+                <div id="images_preview" class="mb-3 d-flex border p-2">
+                    @{
+                        foreach (var photo in Model.HotelPhotos)
+                        {
+                            string path = Url.Content("~/Images/Hotels/" + photo.FileName);
+                            <img src="@path" width="100" height='100' class='m-2 border border-2 rounded' alt="@photo.FileName" />
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="images_preview" class="mb-3 d-flex d-none border p-2"></div>
+            }
+        }
+
+        <input type="button" class="btn btn-danger d-none mb-3" value="Remove Images" id="btnRemoveImages" />
 
         <div class="form-group mb-3 d-flex">
             <input type="submit" value="Create" class="btn btn-success me-2" />
@@ -90,4 +112,64 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        window.onload = function () {
+
+            var btnRemoveImages = document.querySelector("#btnRemoveImages");
+            var output = document.querySelector("#images_preview");
+            var filesInput = document.querySelector("#FormFiles");
+
+            btnRemoveImages.addEventListener("click", function () {
+                filesInput.value = "";
+                output.innerHTML = "";
+                output.classList.add("d-none");
+                btnRemoveImages.classList.add("d-none");
+            });
+
+            //Check File API support
+            if (window.File && window.FileList && window.FileReader) {
+
+                filesInput.addEventListener("change", function (event) {
+
+                    var files = event.target.files; //FileList object
+
+                    btnRemoveImages.classList.remove("d-none");
+                    output.classList.remove("d-none");
+                    output.innerHTML = "";
+
+
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+
+                        //Only pics
+                        if (!file.type.match('image'))
+                            continue;
+
+                        var picReader = new FileReader();
+
+                        picReader.addEventListener("load", function (event) {
+
+                            var picFile = event.target;
+
+                            var div = document.createElement("div");
+
+                            div.innerHTML = "<img width='100px' height='100px' class='m-2 border border-2 rounded' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+
+                            output.insertBefore(div, null);
+
+                        });
+
+                        //Read the image
+                        picReader.readAsDataURL(file);
+                    }
+
+                });
+            }
+            else {
+                console.log("Your browser does not support File API");
+            }
+        }
+
+    </script>
 }

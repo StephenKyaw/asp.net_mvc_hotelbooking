@@ -314,7 +314,7 @@ namespace Panda.HotelBooking.Migrations
                     Phone_2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -344,8 +344,27 @@ namespace Panda.HotelBooking.Migrations
                         name: "FK_Hotels_Townships_TownshipId",
                         column: x => x.TownshipId,
                         principalTable: "Townships",
-                        principalColumn: "TownshipId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "TownshipId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelPhotos",
+                columns: table => new
+                {
+                    HotelPhotoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    HotelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelPhotos", x => x.HotelPhotoId);
+                    table.ForeignKey(
+                        name: "FK_HotelPhotos_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "HotelId");
                 });
 
             migrationBuilder.CreateTable(
@@ -528,6 +547,11 @@ namespace Panda.HotelBooking.Migrations
                 column: "UpdatedUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HotelPhotos_HotelId",
+                table: "HotelPhotos",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Hotels_CityId",
                 table: "Hotels",
                 column: "CityId");
@@ -634,6 +658,9 @@ namespace Panda.HotelBooking.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "HotelPhotos");
 
             migrationBuilder.DropTable(
                 name: "RoomBeds");

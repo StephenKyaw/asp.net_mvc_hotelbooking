@@ -24,7 +24,8 @@ namespace Panda.HotelBooking.Controllers
             var applicationDbContext = _context.Hotels
                 .Include(h => h.City)
                 .Include(h => h.Township)
-                .Include(x => x.CreatedUser);
+                .Include(x => x.CreatedUser)
+                .Include(x => x.HotelPhotos);
 
             return View(await applicationDbContext.ToListAsync());
         }
@@ -60,7 +61,7 @@ namespace Panda.HotelBooking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId")] Hotel hotel)
+        public async Task<IActionResult> Create([Bind("Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId,FormFiles")] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +71,14 @@ namespace Panda.HotelBooking.Controllers
                 hotel.CreatedUserId = user.Id;
                 hotel.CreatedDate = DateTime.Now;
 
+                if (hotel.FormFiles.Count > 0)
+                {
+                    hotel.HotelPhotos = await GetHotelPhotos(hotel.FormFiles, hotel.HotelId);
+                }
+
+
                 _context.Add(hotel);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -89,7 +97,8 @@ namespace Panda.HotelBooking.Controllers
                 return NotFound();
             }
 
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await _context.Hotels.Include(x => x.HotelPhotos).FirstOrDefaultAsync(x => x.HotelId == id);
+
             if (hotel == null)
             {
                 return NotFound();
@@ -101,7 +110,7 @@ namespace Panda.HotelBooking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("HotelId,Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId")] Hotel hotel)
+        public async Task<IActionResult> Edit(string id, [Bind("HotelId,Name,Description,Address,Email,Phone_1,Phone_2,Phone_3,CityId,TownshipId,FormFiles")] Hotel hotel)
         {
             if (id != hotel.HotelId)
             {
@@ -112,7 +121,7 @@ namespace Panda.HotelBooking.Controllers
             {
                 try
                 {
-                    var hotelUpdate = await _context.Hotels.FindAsync(hotel.HotelId);
+                    var hotelUpdate = await _context.Hotels.Include(x => x.HotelPhotos).FirstOrDefaultAsync(x => x.HotelId == hotel.HotelId);
 
                     if (hotelUpdate != null)
                     {
@@ -130,7 +139,19 @@ namespace Panda.HotelBooking.Controllers
                         hotelUpdate.CityId = hotel.CityId;
                         hotelUpdate.TownshipId = hotel.TownshipId;
 
+                        if (hotel.FormFiles.Count > 0)
+                        {
+                            if (hotelUpdate.HotelPhotos.Count > 0)
+                            {
+                                RemoveImages(hotelUpdate.HotelPhotos.ToList());
 
+                                _context.HotelPhotos.RemoveRange(hotelUpdate.HotelPhotos.ToList());
+
+                            }
+
+                            hotelUpdate.HotelPhotos = await GetHotelPhotos(hotel.FormFiles, hotel.HotelId);
+
+                        }
                         _context.Update(hotelUpdate);
                         await _context.SaveChangesAsync();
                     }
@@ -184,9 +205,14 @@ namespace Panda.HotelBooking.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Hotels'  is null.");
             }
-            var hotel = await _context.Hotels.FindAsync(id);
+            var hotel = await _context.Hotels.Include(x => x.HotelPhotos).FirstOrDefaultAsync(x => x.HotelId == id);
             if (hotel != null)
             {
+                if (hotel.HotelPhotos.Count > 0)
+                {
+                    RemoveImages(hotel.HotelPhotos.ToList());
+                    _context.HotelPhotos.RemoveRange(hotel.HotelPhotos);
+                }
                 _context.Hotels.Remove(hotel);
             }
 
@@ -197,6 +223,59 @@ namespace Panda.HotelBooking.Controllers
         private bool HotelExists(string id)
         {
             return _context.Hotels.Any(e => e.HotelId == id);
+        }
+
+        private void RemoveImages(List<HotelPhoto> photos)
+        {
+            foreach (var photo in photos)
+            {
+                string _folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Hotels");
+
+                string _fullPath = Path.Combine(_folderPath, photo.FileName);
+
+                if (System.IO.File.Exists(_fullPath))
+                {
+                    System.IO.File.Delete(_fullPath);
+                }
+            }
+        }
+
+        private async Task<List<HotelPhoto>> GetHotelPhotos(IFormFileCollection files, string hotelId)
+        {
+            List<HotelPhoto> photos = new List<HotelPhoto>();
+
+            if (files.Count > 0)
+            {
+                foreach (var file in files)
+                {
+                    HotelPhoto photo = new HotelPhoto();
+
+                    string _folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Hotels");
+
+                    if (!Directory.Exists(_folderPath))
+                    {
+                        Directory.CreateDirectory(_folderPath);
+                    }
+
+                    string _fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string _fileNameWithPath = Path.Combine(_folderPath, _fileName);
+
+                    using (var straem = new FileStream(_fileNameWithPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(straem);
+                    }
+
+                    photo.HotelPhotoId = Guid.NewGuid().ToString();
+                    photo.HotelId = hotelId;
+                    photo.FileName = _fileName;
+                    photo.OriginalFileName = file.FileName;
+                    photo.ContentType = file.ContentType;
+
+                    photos.Add(photo);
+                }
+
+            }
+            return photos;
         }
     }
 }

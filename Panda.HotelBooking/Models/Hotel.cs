@@ -1,6 +1,8 @@
 ﻿namespace Panda.HotelBooking.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Diagnostics.CodeAnalysis;
 
     public class Hotel : Audit
     {
@@ -29,14 +31,24 @@
         [Required(ErrorMessage = "Require City Location.")]
         public string CityId { get; set; }
 
+        [ForeignKey("CityId")]
         public City City { get; set; }
 
         [Display(Name = "TownShip Name")]
         [Required(ErrorMessage = "Require Township Location.")]
         public string TownshipId { get; set; }
 
+
+        [ForeignKey("TownshipId")]
         public Township Township { get; set; }
 
         public ICollection<Room> Rooms { get; set; }
+
+        [Display(Name = "Photo")]
+        public ICollection<HotelPhoto> HotelPhotos { get; set; }
+
+        [NotMapped]
+        public IFormFileCollection FormFiles { get;set;} = new FormFileCollection();
+
     }
 }

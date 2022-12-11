@@ -12,7 +12,7 @@ using Panda.HotelBooking.Data;
 namespace Panda.HotelBooking.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221210121806_InitMigration")]
+    [Migration("20221211141828_InitMigration")]
     partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -382,7 +382,6 @@ namespace Panda.HotelBooking.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("TownshipId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -402,6 +401,30 @@ namespace Panda.HotelBooking.Migrations
                     b.HasIndex("UpdatedUserId");
 
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.HotelPhoto", b =>
+                {
+                    b.Property<string>("HotelPhotoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HotelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OriginalFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HotelPhotoId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelPhotos");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
@@ -711,9 +734,7 @@ namespace Panda.HotelBooking.Migrations
 
                     b.HasOne("Panda.HotelBooking.Models.Township", "Township")
                         .WithMany()
-                        .HasForeignKey("TownshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TownshipId");
 
                     b.HasOne("Panda.HotelBooking.Models.ApplicationUser", "UpdatedUser")
                         .WithMany()
@@ -726,6 +747,15 @@ namespace Panda.HotelBooking.Migrations
                     b.Navigation("Township");
 
                     b.Navigation("UpdatedUser");
+                });
+
+            modelBuilder.Entity("Panda.HotelBooking.Models.HotelPhoto", b =>
+                {
+                    b.HasOne("Panda.HotelBooking.Models.Hotel", "Hotel")
+                        .WithMany("HotelPhotos")
+                        .HasForeignKey("HotelId");
+
+                    b.Navigation("Hotel");
                 });
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Room", b =>
@@ -845,6 +875,8 @@ namespace Panda.HotelBooking.Migrations
 
             modelBuilder.Entity("Panda.HotelBooking.Models.Hotel", b =>
                 {
+                    b.Navigation("HotelPhotos");
+
                     b.Navigation("Rooms");
                 });
 
