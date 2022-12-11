@@ -47,6 +47,7 @@
         [Display(Name = "Photo")]
         public ICollection<HotelPhoto> HotelPhotos { get; set; }
 
+        [Display(Name="Upload Photos")]
         [NotMapped]
         public IFormFileCollection FormFiles { get;set;} = new FormFileCollection();
 
