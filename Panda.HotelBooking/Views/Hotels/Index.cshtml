@@ -56,8 +56,8 @@
                                 if(item.HotelPhotos.Count > 0 )
                                 {
                                     string path = Url.Content("~/Images/Hotels/" + item.HotelPhotos.FirstOrDefault().FileName);
-                                    
-                                    <img src="@path" width="100" height="100" />
+
+                                    <img class="shadow border rounded" src="@path" width="220" height="150" />
                                 }
                             }
                         </td>
