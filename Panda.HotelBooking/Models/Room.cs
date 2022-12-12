@@ -35,5 +35,9 @@ namespace Panda.HotelBooking.Models
         public ICollection<RoomBed> RoomBeds { get; set; }
         public ICollection<RoomPhoto> RoomPhotos { get; set; }
         public ICollection<RoomFacility> RoomFacilities { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Upload Photos")]
+        public IFormFileCollection FormFilePhotos { get; set;}
     }
 }

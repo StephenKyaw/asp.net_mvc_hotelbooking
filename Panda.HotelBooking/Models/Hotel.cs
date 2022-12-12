@@ -10,6 +10,7 @@
         public string HotelId { get; set; }
 
         [Required(ErrorMessage = "Require Hotel's Name.")]
+        [Display(Name="Hotel Name")]
         public string Name { get; set; }
         public string Description { get; set; }
 

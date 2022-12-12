@@ -82,7 +82,7 @@
                 <span asp-validation-for="FormFiles" class="text-danger"></span>
             </div>
         </div>
-        <div id="images_preview" class="mb-3 d-flex d-none border p-2"> </div>
+        <div id="images_preview" class="mb-3 d-flex d-none border border-success border-1 p-2 justify-content-between flex-wrap"> </div>
         <input type="button" class="btn btn-danger d-none mb-3" value="Remove Images" id="btnRemoveImages" />
         <div class="form-group mb-3 d-flex">
             <input type="submit" value="Create" class="btn btn-success me-2" />
@@ -137,7 +137,7 @@
 
                             var div = document.createElement("div");
 
-                            div.innerHTML = "<img width='100px' height='100px' class='m-2 border border-2 rounded' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+                            div.innerHTML = "<img width='350' height='220' class='m-2 border border-2 rounded shadow' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
 
                             output.insertBefore(div, null);
 

@@ -1,56 +1,91 @@
 ﻿@model Panda.HotelBooking.Models.Room
+@using System.Text.Json;
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = ViewBag.Title;
 }
 
-<h1>Create</h1>
+<div class="bg-light">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
+            <li class="breadcrumb-item p-2 active " aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
 
-<h4>Room</h4>
-<hr />
-<div class="row">
+<p class="text-secondary fw-bolder">@ViewBag.Title</p>
+
+<div class="row mb-3">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoomId" class="control-label"></label>
-                <input asp-for="RoomId" class="form-control" />
-                <span asp-validation-for="RoomId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="HotelId" class="control-label"></label>
-                <select asp-for="HotelId" class ="form-control" asp-items="ViewBag.HotelId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoomTypeId" class="control-label"></label>
-                <select asp-for="RoomTypeId" class ="form-control" asp-items="ViewBag.RoomTypeId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rate" class="control-label"></label>
-                <input asp-for="Rate" class="form-control" />
-                <span asp-validation-for="Rate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumberOfRooms" class="control-label"></label>
-                <input asp-for="NumberOfRooms" class="form-control" />
-                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-3">
+            <label asp-for="HotelId" class="control-label"></label>
+            <select asp-for="HotelId" class="form-control" asp-items="ViewBag.HotelId"></select>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="RoomTypeId" class="control-label"></label>
+            <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Price" class="control-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="Rate" class="control-label"></label>
+            <input asp-for="Rate" class="form-control" />
+            <span asp-validation-for="Rate" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="NumberOfRooms" class="control-label"></label>
+            <input asp-for="NumberOfRooms" class="form-control" />
+            <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group mb-3">
+            <label class="control-label">Room Beds</label>
+            <input id="bedtypes" type="hidden" value="@ViewData["BedTypes"]" />
+            <table id="jgrid" class="table table-bordered table-striped"></table>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="row mb-3">
+    <div class="col-md-6 col-lg-6 col-sm-12">
+        
+    </div>
+</div>
+<div class="form-group mb-3 d-flex">
+    <input type="submit" value="Create" class="btn btn-success me-2" />
+    <a class="btn btn-secondary" asp-action="Index">Back to List</a>
 </div>
 
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        let jdata_grid = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let _bedtypes = JSON.parse(document.querySelector("#bedtypes").value);
+
+            jdata_grid = new jdatagrid(
+                {
+                    table_name: '#jgrid',
+                    item_list: [
+                        { name: 'BedType', input_type: 'select', header_text: 'BedType', is_require: false, require_message: 'Please Entry BedType.', attributes: [{ name: 'class', value: 'form-control' }], data: _bedtypes },
+                        { name: 'NumberOfBeds', input_type: 'number', header_text: 'Number of Beds', is_require: true, require_message: 'Require Number of Beds.', attributes: [{ name: 'class', value: 'form-control' }] }
+                    ],
+                    is_pagination: true,
+                    page_size: 10
+                }
+            );
+        });
+    </script>
 }
