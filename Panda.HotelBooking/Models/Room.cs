@@ -39,5 +39,24 @@ namespace Panda.HotelBooking.Models
         [NotMapped]
         [Display(Name ="Upload Photos")]
         public IFormFileCollection FormFilePhotos { get; set;}
+
+        [NotMapped]
+        public string RoomBedsJsonString { get;set;}
+
+        [NotMapped]
+        public List<RoomBedsViewModel> RoomBedsViewModelList { get; set; }
+    }
+
+    public class JsonTextValue
+    {
+        public string text { get; set; }
+        public string value { get; set; }
+    }
+
+    public class RoomBedsViewModel
+    {
+        public List<JsonTextValue> BedTypes { get; set; }
+        public string NumberOfBeds { get; set; }
+        public int auto_increment_id { get; set; }
     }
 }

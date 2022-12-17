@@ -465,7 +465,9 @@ namespace Panda.HotelBooking.Migrations
                 {
                     RoomPhotoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PhotoPath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

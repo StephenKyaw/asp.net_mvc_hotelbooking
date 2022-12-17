@@ -12,7 +12,8 @@ namespace Panda.HotelBooking.Models
 
         [ForeignKey("RoomId")]
         public Room Room { get; set; }
-
-        public string PhotoPath { get; set; }
+        public string FileName { get; set; }
+        public string OriginalFileName { get; set; }
+        public string ContentType { get; set; }
     }
 }

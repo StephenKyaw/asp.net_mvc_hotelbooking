@@ -6,6 +6,8 @@ using Newtonsoft.Json.Linq;
 using Panda.HotelBooking.Data;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text.Json;
+using NuGet.Packaging;
+using Panda.HotelBooking.Models;
 
 namespace Panda.HotelBooking.Controllers
 {
@@ -61,6 +63,7 @@ namespace Panda.HotelBooking.Controllers
             var betTypes = await _context.BedTypes.Select(x => new { text = x.BedTypeName, value = x.BedTypeId } ).ToListAsync();
 
             ViewData["BedTypes"] = JsonSerializer.Serialize(betTypes);
+            ViewData["RoomFacilities"] = new SelectList(await _context.FacilityTypes.ToListAsync(), "FacilityTypeId", "FacilityType");
 
             return View();
         }
@@ -76,6 +79,35 @@ namespace Panda.HotelBooking.Controllers
                 room.RoomId = Guid.NewGuid().ToString();
                 room.CreatedUserId = user.Id;
                 room.CreatedDate = DateTime.Now;
+
+                room.RoomBedsViewModelList = JsonSerializer.Deserialize<List<RoomBedsViewModel>>(room.RoomBedsJsonString);
+
+                if (room.RoomBedsViewModelList != null && room.RoomBedsViewModelList.Count > 0)
+                {
+                    List<RoomBed> roomBeds=new List<RoomBed>();
+
+                    foreach(var item in room.RoomBedsViewModelList)
+                    {
+                        var roomBed = new RoomBed
+                        {
+                            RoomId = room.RoomId,
+                            BedTypeId = item.BedTypes.FirstOrDefault().value,
+                            NumberOfBeds = Convert.ToInt32(item.NumberOfBeds),
+                            RoomBedId = Guid.NewGuid().ToString()
+                        };
+
+                        roomBeds.Add(roomBed);
+                    }
+
+                    room.RoomBeds = roomBeds;
+                }
+
+
+                if (room.FormFilePhotos.Count > 0)
+                {
+                    room.RoomPhotos = await GetRoomPhotos(room.FormFilePhotos, room.RoomId);
+                }
+
 
                 _context.Add(room);
                 await _context.SaveChangesAsync();
@@ -193,6 +225,44 @@ namespace Panda.HotelBooking.Controllers
         private bool RoomExists(string id)
         {
             return _context.Rooms.Any(e => e.RoomId == id);
+        }
+
+        private async Task<List<RoomPhoto>> GetRoomPhotos(IFormFileCollection files, string roomId)
+        {
+            List<RoomPhoto> photos = new List<RoomPhoto>();
+
+            if (files.Count > 0)
+            {
+                foreach (var file in files)
+                {
+                    RoomPhoto photo = new RoomPhoto();
+
+                    string _folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Rooms");
+
+                    if (!Directory.Exists(_folderPath))
+                    {
+                        Directory.CreateDirectory(_folderPath);
+                    }
+
+                    string _fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string _fileNameWithPath = Path.Combine(_folderPath, _fileName);
+
+                    using (var straem = new FileStream(_fileNameWithPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(straem);
+                    }
+
+                    photo.RoomPhotoId = Guid.NewGuid().ToString();
+                    photo.RoomId = roomId;
+                    photo.FileName = _fileName;
+                    photo.OriginalFileName = file.FileName;
+                    photo.ContentType = file.ContentType;
+
+                    photos.Add(photo);
+                }
+
+            }
+            return photos;
         }
     }
 }

@@ -529,7 +529,13 @@ namespace Panda.HotelBooking.Migrations
                     b.Property<string>("RoomPhotoId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PhotoPath")
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoomId")

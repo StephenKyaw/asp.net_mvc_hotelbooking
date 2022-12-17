@@ -2,9 +2,9 @@
 function jdatagrid(_options) {
 
 
-    let default_options = { data: [], item_list: [], is_pagination: true, page_size: 5, current_page: 1 };
+    let default_options = { data: [], item_list: [], is_pagination: true, page_size: 5, current_page: 1 , target_controlId : "" };
 
-    let { data, item_list, table_name, is_pagination, page_size, current_page } = { ...default_options, ..._options };
+    let { data, item_list, table_name, is_pagination, page_size, current_page, target_controlId } = { ...default_options, ..._options };
 
     let table_instance = document.querySelector(table_name);
 
@@ -54,6 +54,7 @@ function jdatagrid(_options) {
             case 'week':
             case 'range':
             case 'url':
+            case 'file':
                 input = created_control_input(item);
                 break;
             case 'select':
@@ -135,8 +136,9 @@ function jdatagrid(_options) {
     const created_add_button = () => {
         let add_button = document.createElement('button');
         add_button.innerHTML = 'Add';
-        add_button.className = 'btn btn-primary';
-        add_button.onclick = function () {
+        add_button.className = 'btn btn-success';
+        add_button.onclick = function (event) {
+            event.preventDefault();
             add_button_click_event();
         }
         return add_button;
@@ -146,7 +148,8 @@ function jdatagrid(_options) {
         edit_button.className = 'btn btn-secondary me-2 btn_edit';
         edit_button.innerHTML = 'Edit';
         edit_button.id = `item_edit_button_${auto_increment_id}`;
-        edit_button.onclick = function () {
+        edit_button.onclick = function (event) {
+            event.preventDefault();
             edit_button_click_event(table_row_index, auto_increment_id);
         }
         return edit_button;
@@ -156,7 +159,8 @@ function jdatagrid(_options) {
         delete_button.className = 'btn btn-danger';
         delete_button.innerHTML = 'Delete';
         delete_button.id = `item_delete_button_${auto_increment_id}`;
-        delete_button.onclick = function () {
+        delete_button.onclick = function (event) {
+            event.preventDefault();
             delete_button_click_event(auto_increment_id);
         }
         return delete_button;
@@ -195,6 +199,12 @@ function jdatagrid(_options) {
             data.push(item_object);
             render_table_rows();
             clean_input_value();
+
+            if (typeof (target_controlId) != 'undefined' && target_controlId != "") {
+                let _target_control = document.querySelector(`#${target_controlId}`);
+                _target_control.value = "";
+                _target_control.value = JSON.stringify(data);
+            }
         }
     }
     const edit_button_click_event = (table_edit_index, auto_increment_id) => {
@@ -338,7 +348,7 @@ function jdatagrid(_options) {
     }
     const clean_pagination = () => {
         let jgrid_pagination_container = table_instance.nextSibling;//for one or more table
-        if (jgrid_pagination_container != null && jgrid_pagination_container != 'undefined' && jgrid_pagination_container.className == "jgrid-pagination-container") {
+        if (jgrid_pagination_container != null && jgrid_pagination_container != 'undefined' && jgrid_pagination_container.className == "jgrid-pagination-container bg-light") {
             while (jgrid_pagination_container.firstChild) {
                 jgrid_pagination_container.removeChild(jgrid_pagination_container.firstChild);
             }
@@ -350,7 +360,7 @@ function jdatagrid(_options) {
         if (is_pagination == true) {
             if (data.length > page_size) {
                 let jgrid_pagination_container = document.createElement('div');
-                jgrid_pagination_container.className = 'jgrid-pagination-container';
+                jgrid_pagination_container.className = 'jgrid-pagination-container bg-light';
                 let jgrid_pagination = document.createElement('div');
                 jgrid_pagination.className = 'jgrid-pagination';
                 let total_page_number = Math.ceil(data.length / page_size);
