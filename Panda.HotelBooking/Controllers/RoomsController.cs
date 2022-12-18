@@ -8,6 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Text.Json;
 using NuGet.Packaging;
 using Panda.HotelBooking.Models;
+using System.Collections.Generic;
 
 namespace Panda.HotelBooking.Controllers
 {
@@ -29,6 +30,9 @@ namespace Panda.HotelBooking.Controllers
                 .Include(r => r.CreatedUser)
                 .Include(r => r.Hotel)
                 .Include(r => r.RoomType)
+                .Include(x => x.RoomBeds)
+                .Include(x => x.RoomPhotos)
+                .Include(x => x.RoomFacilities)
                 .Include(r => r.UpdatedUser).ToListAsync();
             return View(data);
         }
@@ -56,6 +60,8 @@ namespace Panda.HotelBooking.Controllers
 
         public async Task<IActionResult> Create()
         {
+            Room room =new Room();
+
             ViewBag.Title = "Room Create";
 
             ViewData["HotelId"] = new SelectList(await _context.Hotels.ToListAsync(), "HotelId", "Name");
@@ -63,9 +69,10 @@ namespace Panda.HotelBooking.Controllers
             var betTypes = await _context.BedTypes.Select(x => new { text = x.BedTypeName, value = x.BedTypeId } ).ToListAsync();
 
             ViewData["BedTypes"] = JsonSerializer.Serialize(betTypes);
-            ViewData["RoomFacilities"] = new SelectList(await _context.FacilityTypes.ToListAsync(), "FacilityTypeId", "FacilityType");
 
-            return View();
+             room.RoomFacilitiesSelectList =await _context.FacilityTypes.Select(x => new SelectListItem() { Text = x.FacilityTypeName , Value = x.FacilityTypeId}).ToListAsync();
+
+            return View(room);
         }
 
         [HttpPost]
@@ -108,6 +115,26 @@ namespace Panda.HotelBooking.Controllers
                     room.RoomPhotos = await GetRoomPhotos(room.FormFilePhotos, room.RoomId);
                 }
 
+                var _roomFacilitiesId = room.RoomFacilitiesSelectList.Where(x => x.Selected).Select(x => x.Value).ToList();
+
+                if (_roomFacilitiesId.Count > 0 && _roomFacilitiesId != null)
+                {
+                    List<RoomFacility> _facilityList = new List<RoomFacility>();
+
+                    foreach (var id in _roomFacilitiesId)
+                    {
+                        RoomFacility roomFacility = new RoomFacility()
+                        {
+                            RoomFacilityId = Guid.NewGuid().ToString(),
+                            RoomId = room.RoomId,
+                            FacilityTypeId = id
+                        };
+
+                        _facilityList.Add(roomFacility);
+                    }
+
+                    room.RoomFacilities = _facilityList;
+                }
 
                 _context.Add(room);
                 await _context.SaveChangesAsync();

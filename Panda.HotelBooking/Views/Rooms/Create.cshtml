@@ -49,11 +49,24 @@
             </div>
         </div>
         <div class="col-8">
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label class="control-label">Add Beds</label>
                 <input id="bedtypes" type="hidden" value="@ViewData["BedTypes"]" />
                 <table id="tblRoomBeds" class="table table-bordered table-striped"></table>
                 <input asp-for="RoomBedsJsonString" type="hidden" id="RoomBedsJsonString" />
+            </div>
+             <div class="form-group">
+                <label class="control-label">Check the facilities</label>
+                <div class="d-flex">
+                    @for (var i = 0; i < Model.RoomFacilitiesSelectList.Count; i++)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" asp-for="RoomFacilitiesSelectList[i].Selected" />
+                            <label class="form-check-label"> @Model.RoomFacilitiesSelectList[i].Text</label>
+                            <input type="hidden" asp-for="@Model.RoomFacilitiesSelectList[i].Value" />
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -63,7 +76,7 @@
                 <label asp-for="FormFilePhotos" class="control-label"></label>
                 <input asp-for="FormFilePhotos" type="file" multiple class="form-control" />
                 <span asp-validation-for="FormFilePhotos" class="text-danger"></span>
-            </div>
+            </div>           
         </div>
     </div>
     <div class="row mb-3">

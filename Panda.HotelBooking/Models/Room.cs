@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Panda.HotelBooking.Models
@@ -45,6 +46,9 @@ namespace Panda.HotelBooking.Models
 
         [NotMapped]
         public List<RoomBedsViewModel> RoomBedsViewModelList { get; set; }
+
+        [NotMapped]
+        public List<SelectListItem> RoomFacilitiesSelectList { get; set; }
     }
 
     public class JsonTextValue
