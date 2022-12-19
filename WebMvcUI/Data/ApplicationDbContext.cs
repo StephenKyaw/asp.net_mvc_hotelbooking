@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebMvcUI.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContextV2 : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContextV2(DbContextOptions<ApplicationDbContextV2> options)
             : base(options)
         {
         }

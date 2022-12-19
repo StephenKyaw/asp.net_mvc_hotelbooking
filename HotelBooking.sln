@@ -5,13 +5,13 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Panda.HotelBooking", "Panda.HotelBooking\Panda.HotelBooking.csproj", "{9116BF66-1B29-4DF4-A4CB-42A20C87E4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{C7491C5C-D348-4CBF-A554-E109D0FED3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{C7491C5C-D348-4CBF-A554-E109D0FED3D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{0998FB0D-78B1-4906-AC38-AC1226018599}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{0998FB0D-78B1-4906-AC38-AC1226018599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{79EB5A97-79F0-4EA7-81AF-8C19393865D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{79EB5A97-79F0-4EA7-81AF-8C19393865D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvcUI", "WebMvcUI\WebMvcUI.csproj", "{591F9E83-F808-4C5C-926D-74A548463923}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvcUI", "WebMvcUI\WebMvcUI.csproj", "{CC781CE4-32AF-495F-AFBE-BC536670862E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{79EB5A97-79F0-4EA7-81AF-8C19393865D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79EB5A97-79F0-4EA7-81AF-8C19393865D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79EB5A97-79F0-4EA7-81AF-8C19393865D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{591F9E83-F808-4C5C-926D-74A548463923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{591F9E83-F808-4C5C-926D-74A548463923}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{591F9E83-F808-4C5C-926D-74A548463923}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{591F9E83-F808-4C5C-926D-74A548463923}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC781CE4-32AF-495F-AFBE-BC536670862E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC781CE4-32AF-495F-AFBE-BC536670862E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC781CE4-32AF-495F-AFBE-BC536670862E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC781CE4-32AF-495F-AFBE-BC536670862E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

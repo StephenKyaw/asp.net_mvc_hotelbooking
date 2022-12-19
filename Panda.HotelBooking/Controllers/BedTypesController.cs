@@ -25,6 +25,7 @@ namespace Panda.HotelBooking.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
+            
             if (id == null || _context.BedTypes == null)
             {
                 return NotFound();

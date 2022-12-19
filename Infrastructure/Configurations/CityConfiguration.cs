@@ -9,6 +9,7 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<City> builder)
         {
             builder.HasKey(x=> x.CityId);
+            builder.Property(x => x.CityName).HasMaxLength(256);
         }
     }
 }
