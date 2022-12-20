@@ -1,6 +1,4 @@
-﻿using Domain.Dtos;
-using Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebMvcUI.Controllers
 {
@@ -13,16 +11,9 @@ namespace WebMvcUI.Controllers
             _locationService = locationService;
         }
 
-        public async Task<ActionResult> Index()
-        {
-            
-            //var location =new LocationDto("Yangon","admin",new List<string>() { "Insein", "Kamayut" });
-
-           //await _locationService.AddLocation(location);
-
-            var _locations = await _locationService.GetLocations();
-
-            return View();
+        public async Task<IActionResult> Index()
+        {          
+            return View(await _locationService.GetLocations());
         }
 
         // GET: LocationController/Details/5

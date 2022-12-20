@@ -1,7 +1,6 @@
 ﻿using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Infrastructure.Common
 {
@@ -217,7 +216,12 @@ namespace Infrastructure.Common
 
             if (!string.IsNullOrWhiteSpace(includeString))
             {
-                query = query.Include(includeString);
+                string[] includeStrings = includeString.Split(",");
+
+                foreach(string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
             }
 
             return await query.ToListAsync();

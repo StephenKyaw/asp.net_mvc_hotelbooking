@@ -1,8 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Entities;
 using Domain.Interfaces;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Application.Services
 {

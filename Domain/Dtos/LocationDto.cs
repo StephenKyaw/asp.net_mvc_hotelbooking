@@ -2,7 +2,7 @@
 {
     public class LocationDto
     {
-
+        public LocationDto() { }
         public LocationDto(string cityName, string createdBy, List<string> townships)
         {
             CityName = cityName;
