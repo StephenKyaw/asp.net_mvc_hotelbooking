@@ -1,6 +1,7 @@
 ﻿using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Infrastructure.Common
 {
@@ -208,6 +209,18 @@ namespace Infrastructure.Common
         public async Task DisposeAsync()
         {
             await _dbContext.DisposeAsync();
+        }
+
+        public async Task<IReadOnlyList<T>> GetAllAsync(string includeString = null)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                query = query.Include(includeString);
+            }
+
+            return await query.ToListAsync();
         }
         #endregion
     }

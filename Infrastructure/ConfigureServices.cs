@@ -1,5 +1,7 @@
 ﻿using Domain.Interfaces;
 using Infrastructure.Common;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,11 +12,21 @@ namespace Infrastructure
     {
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(c =>
-                c.UseSqlServer(configuration.GetConnectionString("DBCS"),
-                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-                , ServiceLifetime.Scoped);
 
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            //services.AddDbContext<ApplicationDbContext>(c =>
+            //    c.UseSqlServer(configuration.GetConnectionString("DBCS"),
+            //    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+            //    , ServiceLifetime.Scoped);
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
             return services;
         }
 

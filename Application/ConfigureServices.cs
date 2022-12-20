@@ -8,8 +8,8 @@ namespace Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<ICityService, CityService>();
-            
+            services.AddScoped<ILocationService, LocationService>();
+
             return services;
         }
     }

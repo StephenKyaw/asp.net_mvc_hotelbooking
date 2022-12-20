@@ -45,6 +45,7 @@ namespace Domain.Interfaces
 
         IQueryable<T> GetQueryables(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> GetAllAsync();
+        Task<IReadOnlyList<T>> GetAllAsync(string includeString = null);
 
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
         Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
