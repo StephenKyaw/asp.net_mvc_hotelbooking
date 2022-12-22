@@ -22,29 +22,319 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Domain.Entities.BedType", b =>
+                {
+                    b.Property<string>("BedTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BedTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BedTypeId");
+
+                    b.ToTable("BedTypes");
+                });
+
             modelBuilder.Entity("Domain.Entities.City", b =>
                 {
                     b.Property<string>("CityId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CityName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("CityId");
 
                     b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("Domain.Entities.FacilityType", b =>
+                {
+                    b.Property<string>("FacilityTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FacilityTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FacilityTypeId");
+
+                    b.ToTable("FacilityTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Hotel", b =>
+                {
+                    b.Property<string>("HotelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone_1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone_2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone_3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TownshipId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("HotelId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("TownshipId");
+
+                    b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotelPhoto", b =>
+                {
+                    b.Property<string>("HotelPhotoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HotelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OriginalFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HotelPhotoId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelPhotos");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Room", b =>
+                {
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("HotelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("RoomTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomBed", b =>
+                {
+                    b.Property<string>("RoomBedId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BedTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("NumberOfBeds")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomBedId");
+
+                    b.HasIndex("BedTypeId")
+                        .IsUnique()
+                        .HasFilter("[BedTypeId] IS NOT NULL");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomBeds");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomFacility", b =>
+                {
+                    b.Property<string>("RoomFacilityId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FacilityTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomFacilityId");
+
+                    b.HasIndex("FacilityTypeId")
+                        .IsUnique()
+                        .HasFilter("[FacilityTypeId] IS NOT NULL");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomFacilities");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomPhoto", b =>
+                {
+                    b.Property<string>("RoomPhotoId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OriginalFileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoomPhotoId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomPhotos");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomType", b =>
+                {
+                    b.Property<string>("RoomTypeId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoomTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomTypeId");
+
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Township", b =>
@@ -55,17 +345,17 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CityId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("LastModified")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TownshipName")
                         .HasColumnType("nvarchar(max)");
@@ -274,11 +564,98 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Hotel", b =>
+                {
+                    b.HasOne("Domain.Entities.City", "City")
+                        .WithMany("Hotels")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Domain.Entities.Township", "Township")
+                        .WithMany("Hotels")
+                        .HasForeignKey("TownshipId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("City");
+
+                    b.Navigation("Township");
+                });
+
+            modelBuilder.Entity("Domain.Entities.HotelPhoto", b =>
+                {
+                    b.HasOne("Domain.Entities.Hotel", "Hotel")
+                        .WithMany("HotelPhotos")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Room", b =>
+                {
+                    b.HasOne("Domain.Entities.Hotel", "Hotel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Domain.Entities.RoomType", "RoomType")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomBed", b =>
+                {
+                    b.HasOne("Domain.Entities.BedType", "BedType")
+                        .WithOne("RoomBed")
+                        .HasForeignKey("Domain.Entities.RoomBed", "BedTypeId");
+
+                    b.HasOne("Domain.Entities.Room", "Room")
+                        .WithMany("RoomBeds")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("BedType");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomFacility", b =>
+                {
+                    b.HasOne("Domain.Entities.FacilityType", "FacilityType")
+                        .WithOne("RoomFacility")
+                        .HasForeignKey("Domain.Entities.RoomFacility", "FacilityTypeId");
+
+                    b.HasOne("Domain.Entities.Room", "Room")
+                        .WithMany("RoomFacilities")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("FacilityType");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomPhoto", b =>
+                {
+                    b.HasOne("Domain.Entities.Room", "Room")
+                        .WithMany("RoomPhotos")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("Domain.Entities.Township", b =>
                 {
                     b.HasOne("Domain.Entities.City", "City")
                         .WithMany("Townships")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("City");
                 });
@@ -334,9 +711,47 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.BedType", b =>
+                {
+                    b.Navigation("RoomBed");
+                });
+
             modelBuilder.Entity("Domain.Entities.City", b =>
                 {
+                    b.Navigation("Hotels");
+
                     b.Navigation("Townships");
+                });
+
+            modelBuilder.Entity("Domain.Entities.FacilityType", b =>
+                {
+                    b.Navigation("RoomFacility");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Hotel", b =>
+                {
+                    b.Navigation("HotelPhotos");
+
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Room", b =>
+                {
+                    b.Navigation("RoomBeds");
+
+                    b.Navigation("RoomFacilities");
+
+                    b.Navigation("RoomPhotos");
+                });
+
+            modelBuilder.Entity("Domain.Entities.RoomType", b =>
+                {
+                    b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Township", b =>
+                {
+                    b.Navigation("Hotels");
                 });
 #pragma warning restore 612, 618
         }

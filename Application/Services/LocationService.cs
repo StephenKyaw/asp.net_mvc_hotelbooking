@@ -1,5 +1,4 @@
-﻿using Domain.Dtos;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces;
 
 namespace Application.Services
@@ -15,47 +14,62 @@ namespace Application.Services
             _townshipRepository = townshipRepository;
         }
 
-        public async Task AddLocation(LocationDto location)
+        public async Task AddCity(City city)
         {
-            var city = new City { CityId = Guid.NewGuid().ToString(), CityName = location.CityName, Created = DateTime.Now, CreatedBy = location.CreatedBy };
-
-            city.Townships = location.Townships.Select(x => new Township { TownshipId = Guid.NewGuid().ToString(), TownshipName = x, CityId = city.CityId, Created = DateTime.Now, CreatedBy = location.CreatedBy }).ToList();
-
             await _cityRepository.AddAsync(city);
-
             await _cityRepository.SaveChangesAsync();
+        }
+
+        public async Task AddTownship(Township township)
+        {
+            await _townshipRepository.AddAsync(township);
+            await _townshipRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteCity(string cityId)
+        {
+            var city = await _cityRepository.GetByIdAsync(cityId);
+            _cityRepository.Remove(city);
+            await _cityRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteTownship(string townshipId)
+        {
+            var township = await _townshipRepository.GetByIdAsync(townshipId);
+            _townshipRepository.Remove(township);
+            await _townshipRepository.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<City>> GetCities()
         {
-            return await _cityRepository.GetAllAsync();
+            return await _cityRepository.GetAllAsync("Townships");
         }
 
-        public async Task<IEnumerable<LocationDto>> GetLocations()
+        public async Task<City> GetCityById(string id)
         {
-            List<LocationDto> locations = new List<LocationDto>();
+            return await _cityRepository.GetByIdAsync(id);
+        }
 
-            var cities = await _cityRepository.GetAllAsync("Townships");
-
-            foreach (var city in cities)
-            {
-                locations.Add(new LocationDto(city.CityName, city.CreatedBy,
-                    city.Townships.Select(x => x.TownshipName).ToList()));
-            }
-
-            return locations;
+        public async Task<Township> GetTownshipById(string id)
+        {
+            return await _townshipRepository.FirstOrDefaultAsync(x => x.TownshipId == id, "City");
         }
 
         public async Task<IEnumerable<Township>> GetTownships()
         {
-            return await _townshipRepository.GetAllAsync();
+            return await _townshipRepository.GetAllAsync("City");
         }
 
-        public async Task<IEnumerable<Township>> GetTownshipsByCityName(string cityName)
+        public async Task UpdateCity(City city)
         {
-            var city = await _cityRepository.FirstOrDefaultAsync(x => x.CityName == cityName);
+            _cityRepository.Update(city);
+            await _cityRepository.SaveChangesAsync();
+        }
 
-            return await _townshipRepository.GetAsync(x => x.CityId == city.CityId);
+        public async Task UpdateTownship(Township township)
+        {
+            _townshipRepository.Update(township);
+            await _townshipRepository.SaveChangesAsync();
         }
     }
 }

@@ -12,8 +12,7 @@ namespace Infrastructure.Configurations
             builder.Property(x => x.CityName).HasMaxLength(256);
             builder.HasMany<Township>(x => x.Townships)
                 .WithOne(x => x.City)
-                .HasForeignKey(x => x.CityId)
-                .OnDelete(DeleteBehavior.Cascade);            
+                .HasForeignKey(x => x.CityId);            
         }
     }
 }

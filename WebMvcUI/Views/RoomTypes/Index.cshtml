@@ -1,0 +1,75 @@
+﻿@model IEnumerable<RoomTypeViewModel>
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="bg-light">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
+            <li class="breadcrumb-item p-2 active " aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<p class="text-secondary fw-bolder">@ViewBag.Title</p>
+
+<div class="row mb-2">
+    <div class="col-12 overflow-auto">
+        <table class="table table-bordered table-hover text-nowrap">
+            <thead class="bg-light text-secondary text-uppercase">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomTypeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastModifiedBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastModifiedDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomTypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastModifiedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastModifiedDate)
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary me-2" asp-action="Edit" asp-route-id="@item.RoomTypeId"> <i class="bi bi-pencil-square"></i> Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.RoomTypeId"> <i class="bi bi-trash3"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </div>
+</div>

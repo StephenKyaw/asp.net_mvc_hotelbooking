@@ -61,6 +61,7 @@ namespace Domain.Interfaces
         T FirstOrDefault(Expression<Func<T, bool>> predicate);
         Task<T> SingleAsync(Expression<Func<T, bool>> predicate);
         Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate);
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, string includeString = null);
         #endregion
 
         #region SaveChanges

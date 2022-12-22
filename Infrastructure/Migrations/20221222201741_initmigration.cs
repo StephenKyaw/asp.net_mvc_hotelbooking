@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Panda.HotelBooking.Migrations
+namespace Infrastructure.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class initmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,70 @@ namespace Panda.HotelBooking.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BedTypes",
+                columns: table => new
+                {
+                    BedTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BedTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BedTypes", x => x.BedTypeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cities",
+                columns: table => new
+                {
+                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CityName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cities", x => x.CityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FacilityTypes",
+                columns: table => new
+                {
+                    FacilityTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FacilityTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FacilityTypes", x => x.FacilityTypeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomTypes",
+                columns: table => new
+                {
+                    RoomTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoomTypeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomTypes", x => x.RoomTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,144 +219,20 @@ namespace Panda.HotelBooking.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BedTypes",
-                columns: table => new
-                {
-                    BedTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BedTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BedTypes", x => x.BedTypeId);
-                    table.ForeignKey(
-                        name: "FK_BedTypes_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_BedTypes_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.CityId);
-                    table.ForeignKey(
-                        name: "FK_Cities_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Cities_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FacilityTypes",
-                columns: table => new
-                {
-                    FacilityTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FacilityTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FacilityTypes", x => x.FacilityTypeId);
-                    table.ForeignKey(
-                        name: "FK_FacilityTypes_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_FacilityTypes_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RoomTypes",
-                columns: table => new
-                {
-                    RoomTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomTypeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RoomTypes", x => x.RoomTypeId);
-                    table.ForeignKey(
-                        name: "FK_RoomTypes_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_RoomTypes_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Townships",
                 columns: table => new
                 {
                     TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TownshipName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TownshipName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Townships", x => x.TownshipId);
-                    table.ForeignKey(
-                        name: "FK_Townships_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Townships_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Townships_Cities_CityId",
                         column: x => x.CityId,
@@ -306,35 +246,23 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     HotelId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone_1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone_1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone_3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     TownshipId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hotels", x => x.HotelId);
-                    table.ForeignKey(
-                        name: "FK_Hotels_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Hotels_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Hotels_Cities_CityId",
                         column: x => x.CityId,
@@ -352,10 +280,14 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     HotelPhotoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HotelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HotelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -364,7 +296,8 @@ namespace Panda.HotelBooking.Migrations
                         name: "FK_HotelPhotos_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "HotelId");
+                        principalColumn: "HotelId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -372,43 +305,29 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     RoomId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    HotelId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    HotelId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RoomTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Rate = table.Column<double>(type: "float", nullable: false),
                     NumberOfRooms = table.Column<int>(type: "int", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.RoomId);
                     table.ForeignKey(
-                        name: "FK_Rooms_AspNetUsers_CreatedUserId",
-                        column: x => x.CreatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Rooms_AspNetUsers_UpdatedUserId",
-                        column: x => x.UpdatedUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Rooms_Hotels_HotelId",
                         column: x => x.HotelId,
                         principalTable: "Hotels",
-                        principalColumn: "HotelId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "HotelId");
                     table.ForeignKey(
                         name: "FK_Rooms_RoomTypes_RoomTypeId",
                         column: x => x.RoomTypeId,
                         principalTable: "RoomTypes",
-                        principalColumn: "RoomTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RoomTypeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -416,9 +335,9 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     RoomBedId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    BedTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NumberOfBeds = table.Column<int>(type: "int", nullable: false)
+                    BedTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    NumberOfBeds = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -427,13 +346,13 @@ namespace Panda.HotelBooking.Migrations
                         name: "FK_RoomBeds_BedTypes_BedTypeId",
                         column: x => x.BedTypeId,
                         principalTable: "BedTypes",
-                        principalColumn: "BedTypeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "BedTypeId");
                     table.ForeignKey(
                         name: "FK_RoomBeds_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId");
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -441,8 +360,8 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     RoomFacilityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    FacilityTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    FacilityTypeId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -456,7 +375,8 @@ namespace Panda.HotelBooking.Migrations
                         name: "FK_RoomFacilities_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId");
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -464,10 +384,14 @@ namespace Panda.HotelBooking.Migrations
                 columns: table => new
                 {
                     RoomPhotoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OriginalFileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -476,7 +400,8 @@ namespace Panda.HotelBooking.Migrations
                         name: "FK_RoomPhotos_Rooms_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Rooms",
-                        principalColumn: "RoomId");
+                        principalColumn: "RoomId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -519,36 +444,6 @@ namespace Panda.HotelBooking.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BedTypes_CreatedUserId",
-                table: "BedTypes",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BedTypes_UpdatedUserId",
-                table: "BedTypes",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_CreatedUserId",
-                table: "Cities",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_UpdatedUserId",
-                table: "Cities",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FacilityTypes_CreatedUserId",
-                table: "FacilityTypes",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FacilityTypes_UpdatedUserId",
-                table: "FacilityTypes",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_HotelPhotos_HotelId",
                 table: "HotelPhotos",
                 column: "HotelId");
@@ -559,24 +454,16 @@ namespace Panda.HotelBooking.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_CreatedUserId",
-                table: "Hotels",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Hotels_TownshipId",
                 table: "Hotels",
                 column: "TownshipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hotels_UpdatedUserId",
-                table: "Hotels",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RoomBeds_BedTypeId",
                 table: "RoomBeds",
-                column: "BedTypeId");
+                column: "BedTypeId",
+                unique: true,
+                filter: "[BedTypeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomBeds_RoomId",
@@ -586,7 +473,9 @@ namespace Panda.HotelBooking.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_RoomFacilities_FacilityTypeId",
                 table: "RoomFacilities",
-                column: "FacilityTypeId");
+                column: "FacilityTypeId",
+                unique: true,
+                filter: "[FacilityTypeId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomFacilities_RoomId",
@@ -599,11 +488,6 @@ namespace Panda.HotelBooking.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_CreatedUserId",
-                table: "Rooms",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
@@ -614,34 +498,9 @@ namespace Panda.HotelBooking.Migrations
                 column: "RoomTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_UpdatedUserId",
-                table: "Rooms",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoomTypes_CreatedUserId",
-                table: "RoomTypes",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RoomTypes_UpdatedUserId",
-                table: "RoomTypes",
-                column: "UpdatedUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Townships_CityId",
                 table: "Townships",
                 column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Townships_CreatedUserId",
-                table: "Townships",
-                column: "CreatedUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Townships_UpdatedUserId",
-                table: "Townships",
-                column: "UpdatedUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -677,6 +536,9 @@ namespace Panda.HotelBooking.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "BedTypes");
 
             migrationBuilder.DropTable(
@@ -696,9 +558,6 @@ namespace Panda.HotelBooking.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

@@ -7,6 +7,49 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Roles\**" />
+    <Content Remove="Views\Roles\**" />
+    <EmbeddedResource Remove="Views\Roles\**" />
+    <None Remove="Views\Roles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\RolesController.cs" />
+    <Compile Remove="Controllers\UsersController.cs" />
+    <Compile Remove="Models\Room.cs" />
+    <Compile Remove="Models\RoomBed.cs" />
+    <Compile Remove="Models\RoomFacility.cs" />
+    <Compile Remove="Models\RoomPhoto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\BedTypes\Create.cshtml" />
+    <None Include="Views\BedTypes\Delete.cshtml" />
+    <None Include="Views\BedTypes\Edit.cshtml" />
+    <None Include="Views\BedTypes\Index.cshtml" />
+    <None Include="Views\FacilityTypes\Create.cshtml" />
+    <None Include="Views\FacilityTypes\Delete.cshtml" />
+    <None Include="Views\FacilityTypes\Edit.cshtml" />
+    <None Include="Views\FacilityTypes\Index.cshtml" />
+    <None Include="Views\Hotels\Create.cshtml" />
+    <None Include="Views\Hotels\Delete.cshtml" />
+    <None Include="Views\Hotels\Edit.cshtml" />
+    <None Include="Views\Hotels\Index.cshtml" />
+    <None Include="Views\Rooms\Create.cshtml" />
+    <None Include="Views\Rooms\Delete.cshtml" />
+    <None Include="Views\Rooms\Edit.cshtml" />
+    <None Include="Views\Rooms\Index.cshtml" />
+    <None Include="Views\RoomTypes\Create.cshtml" />
+    <None Include="Views\RoomTypes\Delete.cshtml" />
+    <None Include="Views\RoomTypes\Edit.cshtml" />
+    <None Include="Views\RoomTypes\Index.cshtml" />
+    <None Include="Views\Townships\Create.cshtml" />
+    <None Include="Views\Townships\Delete.cshtml" />
+    <None Include="Views\Townships\Edit.cshtml" />
+    <None Include="Views\Townships\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

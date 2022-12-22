@@ -210,6 +210,22 @@ namespace Infrastructure.Common
             await _dbContext.DisposeAsync();
         }
 
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, string includeString = null)
+        {
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            if (!string.IsNullOrWhiteSpace(includeString))
+            {
+                string[] includeStrings = includeString.Split(",");
+
+                foreach (string include in includeStrings)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(predicate);
+        }
+
         public async Task<IReadOnlyList<T>> GetAllAsync(string includeString = null)
         {
             IQueryable<T> query = _dbContext.Set<T>();

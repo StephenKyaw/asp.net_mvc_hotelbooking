@@ -8,5 +8,13 @@ namespace Domain.Entities
         public string TownshipName { get; set; }
         public string CityId { get; set; }
         public City City { get; set; }
+
+        public virtual IEnumerable<Hotel> Hotels { get; set; }
+
+        public Township()
+        {
+            TownshipId= Guid.NewGuid().ToString();
+            CreatedDate= DateTime.Now;
+        }
     }
 }

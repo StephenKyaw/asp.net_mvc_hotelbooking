@@ -1,7 +1,6 @@
 "use strict";
 function jdatagrid(_options) {
 
-
     let default_options = { data: [], item_list: [], is_pagination: true, page_size: 5, current_page: 1 , target_controlId : "" };
 
     let { data, item_list, table_name, is_pagination, page_size, current_page, target_controlId } = { ...default_options, ..._options };
@@ -13,6 +12,10 @@ function jdatagrid(_options) {
     const init = () => {
         render_table_header();
         render_table_input_controls();
+
+        if (data.length > 0) {
+            render_table_rows();
+        }        
     }
 
     /* custom function*/

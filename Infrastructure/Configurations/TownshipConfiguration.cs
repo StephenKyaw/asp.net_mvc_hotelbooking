@@ -11,7 +11,8 @@ namespace Infrastructure.Configurations
             builder.HasKey(x => x.TownshipId);
             builder.HasOne<City>(x => x.City)
                 .WithMany(x => x.Townships)
-                .HasForeignKey(x => x.CityId);
+                .HasForeignKey(x => x.CityId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace WebMvcUI.Controllers
 {
@@ -11,78 +12,41 @@ namespace WebMvcUI.Controllers
             _locationService = locationService;
         }
 
-        public async Task<IActionResult> Index()
-        {          
-            return View(await _locationService.GetLocations());
-        }
-
-        // GET: LocationController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Index()
         {
             return View();
         }
 
-        // GET: LocationController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
-            return View();
+            LocationViewModel model = new LocationViewModel();
+            var _townships = new List<LocationViewModel.Townships>()
+            {
+                new LocationViewModel.Townships("Kamayut"),
+                new LocationViewModel.Townships("Inseing")
+            };
+            model.TownshipsJoson = JsonSerializer.Serialize<List<LocationViewModel.Townships>>(_townships);
+
+            return View(model);
         }
 
-        // POST: LocationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(LocationViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                //LocationDto location = new LocationDto(model.CityName,
+                //    "Admin",
+                //    JsonSerializer.Deserialize<List<LocationViewModel.Townships>>(model.TownshipsJoson)
+                //    .Select(x => x.Township).ToList()
+                //    );
 
-        // GET: LocationController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+                //await _locationService.AddLocation(location);
 
-        // POST: LocationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LocationController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LocationController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
     }
 }

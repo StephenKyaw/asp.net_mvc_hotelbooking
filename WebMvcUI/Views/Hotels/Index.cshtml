@@ -1,0 +1,103 @@
+﻿@model IEnumerable<HotelViewModel>
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="bg-light">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
+            <li class="breadcrumb-item p-2 active " aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+</div>
+
+<p class="text-secondary fw-bolder">@ViewBag.Title</p>
+
+<div class="row mb-2">
+    <div class="col-12 overflow-auto">
+        <table class="table table-bordered table-hover text-nowrap">
+            <thead class="bg-light text-secondary text-uppercase">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.HotelPhotos)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone_1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CityName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TownshipName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedBy)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @{
+                                if (item.HotelPhotos.Count() > 0)
+                                {
+                                    string path = Url.Content("~/Images/Hotels/" + item.HotelPhotos.FirstOrDefault().FileName);
+
+                                    <img class="shadow border rounded" src="@path" width="220" height="150" />
+                                }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone_1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TownshipName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary me-2" asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil-square"></i> Edit</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"> <i class="bi bi-trash3"></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-success" asp-action="Create">Create New</a>
+    </div>
+</div>

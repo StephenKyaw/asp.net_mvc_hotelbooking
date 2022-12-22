@@ -7,3 +7,5 @@ global using Application;
 global using Application.Services;
 
 global using Infrastructure.Identity;
+
+global using WebMvcUI.Models;
