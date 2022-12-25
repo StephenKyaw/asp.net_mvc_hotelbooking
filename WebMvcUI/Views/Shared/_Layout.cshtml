@@ -1,97 +1,246 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"] [Panda Hotel Booking] </title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebMvcUI.styles.css" asp-append-version="true" />
-    <link href="~/lib/jdatagrid/css/jgrid.css" rel="stylesheet" asp-append-version="true" />
 
-    @*googel font*@
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="~/lib/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="~/lib/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="~/lib/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/lib/AdminLTE-3.2.0/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/lib/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/lib/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/lib/jdatagrid/css/jgrid.css" rel="stylesheet" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom shadow-sm mb-2">
-            <div class="container-fluid">
-                <a class="navbar-brand text-uppercase text-success fw-bolder" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-globe2"></i> Panda Hotel Booking</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1 text-secondary text-uppercase">
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="~/lib/AdminLTE-3.2.0/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        </div>
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="index3.html" class="nav-link">Home</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="navbar-search-block">
+                        <form class="form-inline">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="~/lib/AdminLTE-3.2.0/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">PANDA HOTEL</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- SidebarSearch Form -->
+                <div class="form-inline mt-3">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                             with font-awesome or any other icon font library -->
+                        <li class="nav-item menu-open">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tools"></i>
+                                <p>
+                                    Master Data Setup
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index">
+                                        <i class="nav-icon fas fa-building"></i>
+                                        <p>City</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Townships" asp-action="Index"><i class="nav-icon fas fa-location-arrow"></i> <p>Township</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="RoomTypes" asp-action="Index"><i class="nav-icon fas fa-key"></i> <p>Room Type</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="BedTypes" asp-action="Index"><i class="nav-icon fas fa-bed"></i> <p>Bed Type</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="FacilityTypes" asp-action="Index"><i class="nav-icon fas fa-wifi"></i> <p>Facility Type</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-users"></i> <p>Users</p></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-user-tag"></i> <p>Roles</p></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-header">HOTEL MANAGEMENT</li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-hotel"></i> <p>Hotels</p></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-door-open"></i> <p>Rooms</p></a>
+                        </li>
+                        <li class="nav-header">BOOKING MANAGEMENT</li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-bell"></i> <p>Booking</p></a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
-                </div>
+                </nav>
+                <!-- /.sidebar-menu -->
             </div>
-        </nav>
-    </header>
-    <div class="container-fluid mb-2">
-        <div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-12">
-                <ul class="list-group shadow-sm">
-                    <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#master_data_setup" aria-expanded="false" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-gear"></i> Master Data Setup</span>
-                        <ul id="master_data_setup" class="list-group mt-2 border-0 collapse show">
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Cities" asp-action="Index">City</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Townships" asp-action="Index">Township</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="RoomTypes" asp-action="Index">Room Type</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="BedTypes" asp-action="Index">Bed Type</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="FacilityTypes" asp-action="Index">Facility Type</a></li>
-                        </ul>
-                    </li>
+            <!-- /.sidebar -->
+        </aside>
 
-                    <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#hotel_management" aria-expanded="false" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-building-check"></i> Hotel Management</span>
-                        <ul id="hotel_management" class="list-group mt-2 border-0 collapse show">
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Hotels" asp-action="Index">Hotels</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Rooms" asp-action="Index">Rooms</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="list-group-item rounded-0 p-0 bg-success bg-opacity-75">
-                        <span style="font-weight:600;cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#booking_info" aria-expanded="false" class="ms-2 text-white text-uppercase d-block mt-2"><i class="bi bi-boxes"></i> Booking Information</span>
-                        <ul id="booking_info" class="list-group mt-2 border-0 collapse show">
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Rooms</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Rooms</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Registration</a></li>
-                            <li class="list-group-item rounded-0 border-0 border-top"><a class="text-secondary text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Rooms</a></li>
-                        </ul>
-                    </li>
-                </ul>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Dashboard</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Dashboard v1</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
             </div>
-            <div class="col-lg-10 col-md-10 col-sm-12">
-                <main role="main" class="pb-3 shadow-sm p-3">
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
                     @RenderBody()
-                </main>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2021  Panda Hotel</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.2.0
             </div>
-        </div>
+        </footer>
 
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/lib/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/lib/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="~/lib/jqvmap/jquery.vmap.min.js"></script>
+    <script src="~/lib/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/lib/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="~/lib/moment/moment.min.js"></script>
+    <script src="~/lib/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/lib/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/lib/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/lib/AdminLTE-3.2.0/js/adminlte.js"></script>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - Panda.HotelBooking - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jdatagrid/js/jdatagrid.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
