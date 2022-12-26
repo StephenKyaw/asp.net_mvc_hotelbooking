@@ -9,3 +9,4 @@ global using Application.Services;
 global using Infrastructure.Identity;
 
 global using WebMvcUI.Models;
+global using WebMvcUI.Areas.Admin.Models;
