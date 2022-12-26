@@ -31,6 +31,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
+                bool _check = _signInManager.IsSignedIn(User);
 
                 if (result.Succeeded)
                 {
@@ -72,6 +73,12 @@ namespace WebMvcUI.Areas.Admin.Controllers
             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "Account", new { area = "Admin" });
+        }
         private ApplicationUser CreateUser()
         {
             try

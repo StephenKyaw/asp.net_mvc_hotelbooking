@@ -14,8 +14,6 @@ namespace WebMvcUI.Areas.Admin.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }
-
-
     public class RegisterViewModel
     {
         [Required(ErrorMessage ="Require full name.")]

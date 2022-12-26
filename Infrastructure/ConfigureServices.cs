@@ -18,10 +18,6 @@ namespace Infrastructure
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            //services.AddDbContext<ApplicationDbContext>(c =>
-            //    c.UseSqlServer(configuration.GetConnectionString("DBCS"),
-            //    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
-            //    , ServiceLifetime.Scoped);
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>()
