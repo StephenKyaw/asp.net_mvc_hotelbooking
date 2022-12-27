@@ -1,0 +1,78 @@
+﻿@model IEnumerable<FacilityTypeViewModel>
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="table" class="table table-bordered table-striped text-nowrap">
+                    <thead class="text-primary text-capitalize">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FacilityTypeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastModifiedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastModifiedDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FacilityTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastModifiedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LastModifiedDate)
+                                </td>
+                                <td>
+                                    <a class="btn btn-secondary me-2" asp-action="Edit" asp-route-id="@item.FacilityTypeId"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.FacilityTypeId"> <i class="bi bi-trash3"></i> Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <a class="btn btn-secondary" asp-action="Create">Create New</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            $("#table").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+}

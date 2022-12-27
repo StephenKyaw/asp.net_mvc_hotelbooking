@@ -30,6 +30,13 @@
     <!-- summernote -->
     <link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css">
 
+      <!-- DataTables -->
+    <link rel="stylesheet" href="~/lib/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+     <link rel="stylesheet" href="~/lib/dropzone/min/dropzone.min.css">
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="~/lib/jdatagrid/css/jgrid.css" rel="stylesheet" asp-append-version="true" />
 </head>
@@ -136,41 +143,41 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index">
+                                    <a class="nav-link" asp-area="admin" asp-controller="Cities" asp-action="Index">
                                         <i class="nav-icon fas fa-building"></i>
                                         <p>City</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Townships" asp-action="Index"><i class="nav-icon fas fa-location-arrow"></i> <p>Township</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="Townships" asp-action="Index"><i class="nav-icon fas fa-location-arrow"></i> <p>Township</p></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="RoomTypes" asp-action="Index"><i class="nav-icon fas fa-key"></i> <p>Room Type</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="RoomTypes" asp-action="Index"><i class="nav-icon fas fa-key"></i> <p>Room Type</p></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="BedTypes" asp-action="Index"><i class="nav-icon fas fa-bed"></i> <p>Bed Type</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="BedTypes" asp-action="Index"><i class="nav-icon fas fa-bed"></i> <p>Bed Type</p></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="FacilityTypes" asp-action="Index"><i class="nav-icon fas fa-wifi"></i> <p>Facility Type</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="FacilityTypes" asp-action="Index"><i class="nav-icon fas fa-wifi"></i> <p>Facility Type</p></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-users"></i> <p>Users</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-users"></i> <p>Users</p></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-user-tag"></i> <p>Roles</p></a>
+                                    <a class="nav-link" asp-area="admin" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-user-tag"></i> <p>Roles</p></a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-header">HOTEL MANAGEMENT</li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-hotel"></i> <p>Hotels</p></a>
+                            <a class="nav-link" asp-area="admin" asp-controller="hotels" asp-action="Index"><i class="nav-icon fas fa-hotel"></i> <p>Hotels</p></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-door-open"></i> <p>Rooms</p></a>
+                            <a class="nav-link" asp-area="admin" asp-controller="rooms" asp-action="Index"><i class="nav-icon fas fa-door-open"></i> <p>Rooms</p></a>
                         </li>
                         <li class="nav-header">BOOKING MANAGEMENT</li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Cities" asp-action="Index"><i class="nav-icon fas fa-bell"></i> <p>Booking</p></a>
+                            <a class="nav-link" asp-area="admin" asp-controller="booking" asp-action="Index"><i class="nav-icon fas fa-bell"></i> <p>Booking</p></a>
                         </li>
                     </ul>
                 </nav>
@@ -181,23 +188,9 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Dashboard v1</li>
-                            </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
+
+            <partial name="_ContentHeader" />
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -252,6 +245,23 @@
     <script src="~/lib/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/lib/AdminLTE-3.2.0/js/adminlte.js"></script>
+
+    <!-- DataTables  & Plugins -->
+    <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/lib/jszip/jszip.min.js"></script>
+    <script src="~/lib/pdfmake/pdfmake.min.js"></script>
+    <script src="~/lib/pdfmake/vfs_fonts.js"></script>
+    <script src="~/lib/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/lib/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <!-- dropzonejs -->
+    <script src="~/lib/dropzone/min/dropzone.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jdatagrid/js/jdatagrid.js" asp-append-version="true"></script>

@@ -1,0 +1,316 @@
+﻿@model HotelViewModel
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12">
+                <form asp-action="Create" class="class=" dropzone"" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="CityId" class="control-label"></label>
+                            <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId">
+                                <option value="">Select One</option>
+                            </select>
+                            <span asp-validation-for="CityId" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="TownshipId" class="control-label"></label>
+                            <select asp-for="TownshipId" class="form-control" asp-items="ViewBag.TownshipId">
+                                <option value="">Select One</option>
+                            </select>
+                            <span asp-validation-for="TownshipId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Address" class="control-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Phone_1" class="control-label"></label>
+                            <input asp-for="Phone_1" class="form-control" />
+                            <span asp-validation-for="Phone_1" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Phone_2" class="control-label"></label>
+                            <input asp-for="Phone_2" class="form-control" />
+                            <span asp-validation-for="Phone_2" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="Phone_3" class="control-label"></label>
+                            <input asp-for="Phone_3" class="form-control" />
+                            <span asp-validation-for="Phone_3" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12">
+                            <label asp-for="FileRoomPhotos" class="control-label"></label>
+                            <input asp-for="FileRoomPhotos" type="file" multiple class="form-control" />
+                            <span asp-validation-for="FileRoomPhotos" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div id="images_preview" class="mb-3 d-flex d-none border border-success border-1 p-2 justify-content-between flex-wrap"> </div>
+                    <input type="button" class="btn btn-danger d-none mb-3" value="Remove Images" id="btnRemoveImages" />
+
+                   
+                  
+
+                    <div class="form-group mb-3 d-flex">
+                        <input type="submit" value="Create" class="btn btn-success mr-2" />
+                        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+          <!-- /.row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    <h3 class="card-title">Dropzone.js <small><em>jQuery File Upload</em> like look</small></h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="actions" class="row">
+                                        <div class="col-lg-6">
+                                            <div class="btn-group w-100">
+                                                <span class="btn btn-success col fileinput-button">
+                                                    <i class="fas fa-plus"></i>
+                                                    <span>Add files</span>
+                                                </span>
+                                                <button type="submit" class="btn btn-primary col start">
+                                                    <i class="fas fa-upload"></i>
+                                                    <span>Start upload</span>
+                                                </button>
+                                                <button type="reset" class="btn btn-warning col cancel">
+                                                    <i class="fas fa-times-circle"></i>
+                                                    <span>Cancel upload</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 d-flex align-items-center">
+                                            <div class="fileupload-process w-100">
+                                                <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table table-striped files" id="previews">
+                                        <div id="template" class="row mt-2">
+                                            <div class="col-auto">
+                                                <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
+                                            </div>
+                                            <div class="col d-flex align-items-center">
+                                                <p class="mb-0">
+                                                    <span class="lead" data-dz-name></span>
+                                                    (<span data-dz-size></span>)
+                                                </p>
+                                                <strong class="error text-danger" data-dz-errormessage></strong>
+                                            </div>
+                                            <div class="col-4 d-flex align-items-center">
+                                                <div class="progress progress-striped active w-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto d-flex align-items-center">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-primary start">
+                                                        <i class="fas fa-upload"></i>
+                                                        <span>Start</span>
+                                                    </button>
+                                                    <button data-dz-remove class="btn btn-warning cancel">
+                                                        <i class="fas fa-times-circle"></i>
+                                                        <span>Cancel</span>
+                                                    </button>
+                                                    <button data-dz-remove class="btn btn-danger delete">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span>Delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    Visit <a href="https://www.dropzonejs.com">dropzone.js documentation</a> for more examples and information about the plugin.
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+        @*  <div class="row">
+        <div class="col-md-9">
+        <div id="dropzone">
+        <form asp-action="Upload"  class="dropzone needsclick dz-clickable" id="uploader">
+        <div class="dz-message needsclick">
+        Drop files here or click to upload.<br>
+        </div>
+        </form>
+        </div>
+        </div>
+        </div>*@
+
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        window.onload = function () {
+
+            var btnRemoveImages = document.querySelector("#btnRemoveImages");
+            var output = document.querySelector("#images_preview");
+            var filesInput = document.querySelector("#FileRoomPhotos");
+
+            btnRemoveImages.addEventListener("click", function () {
+                filesInput.value = "";
+                output.innerHTML = "";
+                output.classList.add("d-none");
+                btnRemoveImages.classList.add("d-none");
+            });
+
+            //Check File API support
+            if (window.File && window.FileList && window.FileReader) {
+
+                filesInput.addEventListener("change", function (event) {
+
+                    var files = event.target.files; //FileList object
+
+                    btnRemoveImages.classList.remove("d-none");
+                    output.classList.remove("d-none");
+                    output.innerHTML = "";
+
+
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+
+                        //Only pics
+                        if (!file.type.match('image'))
+                            continue;
+
+                        var picReader = new FileReader();
+
+                        picReader.addEventListener("load", function (event) {
+
+                            var picFile = event.target;
+
+                            var div = document.createElement("div");
+
+                            div.innerHTML = "<img width='350' height='220' class='m-2 border border-2 rounded shadow' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+
+                            output.insertBefore(div, null);
+
+                        });
+
+                        //Read the image
+                        picReader.readAsDataURL(file);
+                    }
+
+                });
+            }
+            else {
+                console.log("Your browser does not support File API");
+            }
+        }
+
+        //Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+        //    paramName: "file", // The name that will be used to transfer the file
+        //    maxFilesize: 2, // MB
+        //    accept: function (file, done) {
+        //        if (file.name == "justinbieber.jpg") {
+        //            done("Naha, you don't.");
+        //        }
+        //        else { done(); }
+        //    }
+        //};
+
+
+        $(function () {
+            // DropzoneJS Demo Code Start
+            Dropzone.autoDiscover = false
+
+            // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+            var previewNode = document.querySelector("#template")
+            previewNode.id = ""
+            var previewTemplate = previewNode.parentNode.innerHTML
+            previewNode.parentNode.removeChild(previewNode)
+
+            var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+                url: "Upload", // Set the url
+                thumbnailWidth: 80,
+                thumbnailHeight: 80,
+                parallelUploads: 20,
+                previewTemplate: previewTemplate,
+                autoQueue: false, // Make sure the files aren't queued until manually added
+                previewsContainer: "#previews", // Define the container to display the previews
+                clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+            })
+
+            myDropzone.on("addedfile", function (file) {
+                // Hookup the start button
+                file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
+            })
+
+            // Update the total progress bar
+            myDropzone.on("totaluploadprogress", function (progress) {
+                document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+            })
+
+            myDropzone.on("sending", function (file) {
+                // Show the total progress bar when upload starts
+                document.querySelector("#total-progress").style.opacity = "1"
+                // And disable the start button
+                file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+            })
+
+            // Hide the total progress bar when nothing's uploading anymore
+            myDropzone.on("queuecomplete", function (progress) {
+                document.querySelector("#total-progress").style.opacity = "0"
+            })
+
+            // Setup the buttons for all transfers
+            // The "add files" button doesn't need to be setup because the config
+            // `clickable` has already been specified.
+            document.querySelector("#actions .start").onclick = function () {
+                myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+            }
+            document.querySelector("#actions .cancel").onclick = function () {
+                myDropzone.removeAllFiles(true)
+            }
+            // DropzoneJS Demo Code End
+        });
+    </script>
+}

@@ -1,4 +1,5 @@
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,19 @@ builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationServices();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/admin/account/login";
+    options.Cookie.Name = "PandaHotelBookingCookie";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.LoginPath = "/admin/account/login";
+    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+    options.SlidingExpiration = true;
+});
+
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -48,6 +61,7 @@ app.MapAreaControllerRoute(name: "Admin", areaName: "Admin",
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=admin}/{controller=dashboard}/{action=index}/{id?}");
+    pattern: "{controller=home}/{action=index}/{id?}");
+
 
 app.Run();

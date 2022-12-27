@@ -23,30 +23,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\BedTypes\Create.cshtml" />
-    <None Include="Views\BedTypes\Delete.cshtml" />
-    <None Include="Views\BedTypes\Edit.cshtml" />
-    <None Include="Views\BedTypes\Index.cshtml" />
-    <None Include="Views\FacilityTypes\Create.cshtml" />
-    <None Include="Views\FacilityTypes\Delete.cshtml" />
-    <None Include="Views\FacilityTypes\Edit.cshtml" />
-    <None Include="Views\FacilityTypes\Index.cshtml" />
-    <None Include="Views\Hotels\Create.cshtml" />
-    <None Include="Views\Hotels\Delete.cshtml" />
-    <None Include="Views\Hotels\Edit.cshtml" />
-    <None Include="Views\Hotels\Index.cshtml" />
-    <None Include="Views\Rooms\Create.cshtml" />
-    <None Include="Views\Rooms\Delete.cshtml" />
-    <None Include="Views\Rooms\Edit.cshtml" />
-    <None Include="Views\Rooms\Index.cshtml" />
-    <None Include="Views\RoomTypes\Create.cshtml" />
-    <None Include="Views\RoomTypes\Delete.cshtml" />
-    <None Include="Views\RoomTypes\Edit.cshtml" />
-    <None Include="Views\RoomTypes\Index.cshtml" />
-    <None Include="Views\Townships\Create.cshtml" />
-    <None Include="Views\Townships\Delete.cshtml" />
-    <None Include="Views\Townships\Edit.cshtml" />
-    <None Include="Views\Townships\Index.cshtml" />
+    <None Include="Areas\Admin\Views\BedTypes\Create.cshtml" />
+    <None Include="Areas\Admin\Views\BedTypes\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\BedTypes\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\BedTypes\Index.cshtml" />
+    <None Include="Areas\Admin\Views\FacilityTypes\Create.cshtml" />
+    <None Include="Areas\Admin\Views\FacilityTypes\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\FacilityTypes\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\FacilityTypes\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Hotels\Create.cshtml" />
+    <None Include="Areas\Admin\Views\Hotels\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\Hotels\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\Hotels\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Rooms\Create.cshtml" />
+    <None Include="Areas\Admin\Views\Rooms\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\Rooms\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\Rooms\Index.cshtml" />
+    <None Include="Areas\Admin\Views\RoomTypes\Create.cshtml" />
+    <None Include="Areas\Admin\Views\RoomTypes\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\RoomTypes\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\RoomTypes\Index.cshtml" />
+    <None Include="Areas\Admin\Views\Townships\Create.cshtml" />
+    <None Include="Areas\Admin\Views\Townships\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\Townships\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\Townships\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,7 +76,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
 
 </Project>

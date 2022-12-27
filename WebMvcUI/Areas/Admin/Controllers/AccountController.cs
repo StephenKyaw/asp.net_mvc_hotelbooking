@@ -30,16 +30,28 @@ namespace WebMvcUI.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: true, lockoutOnFailure: false);
-                bool _check = _signInManager.IsSignedIn(User);
+                var _loginUser = await _userManager.FindByEmailAsync(model.Email);
 
-                if (result.Succeeded)
+                if (_loginUser != null)
                 {
-                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    var _checkPassword = await _userManager.CheckPasswordAsync(_loginUser, model.Password);
+
+                    if (_checkPassword)
+                    {
+                        await _signInManager.SignInAsync(_loginUser, model.RememberMe);
+
+                        var _isAdminRole = await _userManager.IsInRoleAsync(_loginUser, Constants.ROLE_ADMINISTRATORS);
+
+                        if (_isAdminRole)
+                        {
+                            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                        }
+                    }
                 }
+
             }
 
-            return View();
+            return RedirectToAction("index", "home", new { area = "" });
         }
 
         [HttpGet]
@@ -87,9 +99,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'");
             }
         }
     }
