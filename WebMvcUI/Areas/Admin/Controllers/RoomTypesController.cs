@@ -18,6 +18,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.Title = "RoomType Listing";
+            
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "RoomType Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "dashboard", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Dashboard" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "RoomType Listing", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
 
             var roomTypes = await _roomService.GetRoomTypes();
 
@@ -27,6 +34,14 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewBag.Title = "RoomType Create";
+            
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "RoomType Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "roomtypes", ActionName = "index", AreaName = "admin", IsActive = false, Title = "RoomType Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "RoomType Create", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             return View();
         }
 
@@ -48,6 +63,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(string id)
         {
             ViewBag.Title = "RoomType Update";
+
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "RoomType Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "roomtypes", ActionName = "index", AreaName = "admin", IsActive = false, Title = "RoomType Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "RoomType Update", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
 
             if (id == null)
             {
@@ -94,6 +116,11 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             ViewBag.Title = "RoomType Delete";
+
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "RoomType Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "roomtypes", ActionName = "index", AreaName = "admin", IsActive = false, Title = "RoomType Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "RoomType Delete", IsActive = true });
 
             if (id == null)
             {

@@ -18,6 +18,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Township Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "dashboard", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Dashboard" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Township Listing", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             var townships = await _locationService.GetTownships();
 
             return View(townships.Select(x => new TownshipViewModel
@@ -33,8 +40,16 @@ namespace WebMvcUI.Areas.Admin.Controllers
             }));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Township Create";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "townships", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Township Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Township Create", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             ViewData["CityId"] = new SelectList(await _locationService.GetCities(), "CityId", "CityName");
 
             return View();
@@ -66,6 +81,14 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(string id)
         {
+
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Township Update";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "townships", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Township Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Township Update", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             if (id == null)
             {
                 return NotFound();
@@ -115,8 +138,16 @@ namespace WebMvcUI.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Township Delete";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "townships", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Township Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Township Delete", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             if (id == null)
             {
                 return NotFound();
