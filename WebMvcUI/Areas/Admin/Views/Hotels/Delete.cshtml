@@ -1,4 +1,4 @@
-﻿@model Hotel
+﻿@model HotelViewModel
 @{
     ViewData["Title"] = ViewBag.Title;
 }
@@ -8,7 +8,7 @@
         <h3 class="text-secondary mb-2">Are you sure you want to delete this?</h3>
     </div>
     <div class="card-body">
-        <dl class="row border p-3">
+        <dl class="row border p-3 mb-3">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
@@ -52,22 +52,44 @@
                 @Html.DisplayFor(model => model.Phone_3)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.CityName)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.City.CityName)
+                @Html.DisplayFor(model => model.CityName)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Township)
+                @Html.DisplayNameFor(model => model.TownshipName)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Township.TownshipName)
+                @Html.DisplayFor(model => model.TownshipName)
             </dd>
         </dl>
+        @{
+            string _style = "display:none";
+            if (Model.HotelPhotos != null && Model.HotelPhotos.Count() > 0)
+            {
+                _style = "display:block";
+            }
+
+            <div style="@_style" class="card">
+                <div class="card-header"> <i class="fas fa-images"></i> Hotel Images</div>
+                <div class="card-body">
+                    <div id="images_preview" class="mb-3 d-flex justify-content-start flex-wrap">
+                        @{
+                            foreach (var photo in Model.HotelPhotos)
+                            {
+                                string path = Url.Content("~/Images/Hotels/" + photo.FileName);
+                                <img src="@path" width='200' height='120' class='m-2 border border-2 rounded shadow' alt="@photo.FileName" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
     <div class="card-footer">
         <form asp-action="Delete">
-            <input type="hidden" asp-for="HotelId" />
+            <input type="hidden" asp-for="Id" />
             <input type="submit" value="Delete" class="btn btn-danger me-2" />
             <a class="btn btn-secondary" asp-action="Index">Back to List</a>
         </form>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebMvcUI.Areas.Admin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Constants.ROLE_ADMINISTRATORS)]
     [Area("admin")]
     public class CitiesController : Controller
     {

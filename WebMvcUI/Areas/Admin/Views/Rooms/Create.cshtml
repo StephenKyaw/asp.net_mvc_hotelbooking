@@ -5,102 +5,136 @@
     ViewData["Title"] = ViewBag.Title;
 }
 
-<div class="bg-light">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item p-2"><a class="text-decoration-none text-success" href="#">Mastser Data Setup</a></li>
-            <li class="breadcrumb-item p-2 active " aria-current="page">@ViewBag.Title</li>
-        </ol>
-    </nav>
-</div>
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
 
-<p class="text-secondary fw-bolder">@ViewBag.Title</p>
-<form asp-action="Create" enctype="multipart/form-data">
-
-    <div class="mb-3">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col-4">
-            <div class="form-group mb-3">
-                <label asp-for="HotelId" class="control-label"></label>
-                <select asp-for="HotelId" class="form-control" asp-items="ViewBag.HotelId"></select>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="RoomTypeId" class="control-label"></label>
-                <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
+            <div class="mb-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="NumberOfRooms" class="control-label"></label>
-                <input asp-for="NumberOfRooms" class="form-control" />
-                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Rate" class="control-label"></label>
-                <input asp-for="Rate" class="form-control" />
-                <span asp-validation-for="Rate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="form-group mb-3">
-                <label class="control-label">Add Beds</label>
-                <input id="bedtypes" type="hidden" value="@ViewData["BedTypes"]" />
-                <table id="tblRoomBeds" class="table table-bordered table-striped"></table>
-                <input asp-for="RoomBedsJsonString" type="hidden" id="RoomBedsJsonString" />
-            </div>
-             <div class="form-group">
-                <label class="control-label">Check the facilities</label>
-                <div class="d-flex">
-                    @for (var i = 0; i < Model.RoomFacilities.Count; i++)
-                    {
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" asp-for="RoomFacilities[i].Selected" />
-                            <label class="form-check-label"> @Model.RoomFacilities[i].Text</label>
-                            <input type="hidden" asp-for="@Model.RoomFacilities[i].Value" />
-                        </div>
-                    }
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="HotelId" class="control-label"></label>
+                        <select asp-for="HotelId" class="form-control" asp-items="ViewBag.HotelId"></select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="RoomTypeId" class="control-label"></label>
+                        <select asp-for="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypeId"></select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="row mb-3">
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="NumberOfRooms" class="control-label"></label>
+                        <input asp-for="NumberOfRooms" class="form-control" />
+                        <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Rate" class="control-label"></label>
+                        <input asp-for="Rate" class="form-control" />
+                        <span asp-validation-for="Rate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="FileRoomPhotos" class="control-label"></label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input asp-for="FileRoomPhotos" id="FileRoomPhotos" type="file" multiple class="custom-file-input" />
+                                <label class="custom-file-label" for="FileRoomPhotos">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <span asp-validation-for="FileRoomPhotos" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div id="card_rooms_images" style="display:none;" class="card">
+                        <div class="card-header"> <i class="fas fa-images"></i> Room Images</div>
+                        <div class="card-body">
+                            <div id="images_preview" class="mb-3 d-flex justify-content-start flex-wrap"> </div>
+                        </div>
+                        <div class="card-footer">
+                            <button id="btnRemoveImages" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-bed"></i> Add the Beds
+                        </div>
+                        <div class="card-body">
+                            <input id="bedtypes" type="hidden" value="@ViewData["BedTypes"]" />
+                            <table id="tblRoomBeds" class="table table-bordered table-striped"></table>
+                            <input asp-for="RoomBedsJsonString" type="hidden" id="RoomBedsJsonString" />
+                            <span asp-validation-for="RoomBedsJsonString" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-wifi"></i> Select the Room Facilities
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex">
+                                @for (var i = 0; i < Model.RoomFacilities.Count; i++)
+                                {
+                                    <div class="icheck-secondary d-inline mr-2">
+                                        <input type="checkbox" asp-for="RoomFacilities[i].Selected" />
+                                        <label asp-for="RoomFacilities[i].Selected"> @Model.RoomFacilities[i].Text</label>
+                                        <input type="hidden" asp-for="@Model.RoomFacilities[i].Value" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group mb-3 d-flex">
+                        <input type="submit" value="Create" class="btn btn-secondary mr-2" />
+                        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="row mb-3">
-        <div class="col-4">
-            <div class="form-group">
-                <label asp-for="FileRoomPhotos" class="control-label"></label>
-                <input asp-for="FileRoomPhotos" type="file" multiple class="form-control" />
-                <span asp-validation-for="FileRoomPhotos" class="text-danger"></span>
-            </div>           
-        </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div id="images_preview" class="mb-3 d-flex d-none border border-success border-1 p-2 justify-content-between flex-wrap"> </div>
-            <input type="button" class="btn btn-danger d-none mb-3" value="Remove Images" id="btnRemoveImages" />
-        </div>
-    </div>
-    <div class="form-group mb-3 d-flex">
-        <input type="submit" value="Create" class="btn btn-success me-2" />
-        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
-    </div>
-</form>
-
+</div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script>
         let jdata_grid = null;
 
-        document.addEventListener("DOMContentLoaded", function () {
+        $(function () {
+            let card_hotel_images = document.querySelector('#card_rooms_images');
+            var btnRemoveImages = document.querySelector("#btnRemoveImages");
+            var output = document.querySelector("#images_preview");
+            var filesInput = document.querySelector("#FileRoomPhotos");
 
             let _bedtypes = JSON.parse(document.querySelector("#bedtypes").value);
 
@@ -108,7 +142,7 @@
                 {
                     table_name: '#tblRoomBeds',
                     item_list: [
-                        { name: 'BedTypes', input_type: 'select', header_text: 'BedType', is_require: false, require_message: 'Please Entry BedType.', attributes: [{ name: 'class', value: 'form-control' }], data: _bedtypes },
+                        { name: 'BedTypes', input_type: 'select', header_text: 'BedType', is_require: true, require_message: 'Please Entry BedType.', attributes: [{ name: 'class', value: 'form-control' }], data: _bedtypes },
                         { name: 'NumberOfBeds', input_type: 'number', header_text: 'Number of Beds', is_require: true, require_message: 'Require Number of Beds.', attributes: [{ name: 'class', value: 'form-control' }] }
                     ],
                     is_pagination: true,
@@ -118,15 +152,11 @@
             );
             //end jdatagrid
 
-            let btnRemoveImages = document.querySelector("#btnRemoveImages");
-            let output = document.querySelector("#images_preview");
-            var filesInput = document.querySelector("#FileRoomPhotos");
-
-            btnRemoveImages.addEventListener("click", function () {
+            btnRemoveImages.addEventListener("click", function (event) {
+                event.preventDefault();
                 filesInput.value = "";
                 output.innerHTML = "";
-                output.classList.add("d-none");
-                btnRemoveImages.classList.add("d-none");
+                card_hotel_images.style.display = "none";
             });
 
             //Check File API support
@@ -135,11 +165,10 @@
                 filesInput.addEventListener("change", function (event) {
 
                     var files = event.target.files; //FileList object
-
-                    btnRemoveImages.classList.remove("d-none");
-                    output.classList.remove("d-none");
+                    console.log('files', files.length);
                     output.innerHTML = "";
 
+                    card_hotel_images.style.display = "block";
 
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
@@ -156,7 +185,7 @@
 
                             var div = document.createElement("div");
 
-                            div.innerHTML = "<img width='350' height='220' class='m-2 border border-2 rounded shadow' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
+                            div.innerHTML = "<img width='200' height='120' class='m-2 border border-2 rounded shadow' src='" + picFile.result + "'" + "title='" + picFile.name + "'/>";
 
                             output.insertBefore(div, null);
 
@@ -172,5 +201,6 @@
                 console.log("Your browser does not support File API");
             }
         });
+
     </script>
 }

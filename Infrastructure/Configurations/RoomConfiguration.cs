@@ -12,8 +12,8 @@ namespace Infrastructure.Configurations
 
             builder.Property(b => b.Price).HasPrecision(18, 2);
 
-            builder.HasOne<Hotel>(x => x.Hotel).WithMany(x => x.Rooms).HasForeignKey(x => x.HotelId).OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne<RoomType>(x => x.RoomType).WithMany(x => x.Rooms).HasForeignKey(x => x.RoomTypeId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne<Hotel>(x => x.Hotel).WithMany(x => x.Rooms).HasForeignKey(x => x.HotelId);
+            builder.HasOne<RoomType>(x => x.RoomType).WithMany(x => x.Rooms).HasForeignKey(x => x.RoomTypeId);
 
          
 
@@ -28,7 +28,7 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(x => x.RoomBedId);
 
-            builder.HasOne<BedType>(x => x.BedType).WithOne(x => x.RoomBed).HasForeignKey<RoomBed>(x => x.BedTypeId);
+            builder.HasOne<BedType>(x => x.BedType).WithMany(x => x.RoomBeds).HasForeignKey(x => x.BedTypeId);
         }
     }
     public class RoomFacilityConfiguration : IEntityTypeConfiguration<RoomFacility>
@@ -37,7 +37,7 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(x => x.RoomFacilityId);
 
-            builder.HasOne<FacilityType>(x => x.FacilityType).WithOne(x => x.RoomFacility).HasForeignKey<RoomFacility>(x => x.FacilityTypeId);
+            builder.HasOne<FacilityType>(x => x.FacilityType).WithMany(x => x.RoomFacilities).HasForeignKey(x => x.FacilityTypeId);
         }
     }
 
@@ -70,6 +70,7 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<RoomType> builder)
         {
             builder.HasKey(x => x.RoomTypeId);
+            builder.HasMany<Room>(x => x.Rooms).WithOne(x => x.RoomType).HasForeignKey(x => x.RoomTypeId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

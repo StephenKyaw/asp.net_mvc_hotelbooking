@@ -10,9 +10,8 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(x=> x.CityId);
             builder.Property(x => x.CityName).HasMaxLength(256);
-            builder.HasMany<Township>(x => x.Townships)
-                .WithOne(x => x.City)
-                .HasForeignKey(x => x.CityId);            
+            builder.HasMany<Township>(x => x.Townships).WithOne(x => x.City).HasForeignKey(x => x.CityId);   
+            builder.HasMany<Hotel>(x => x.Hotels).WithOne(x => x.City).HasForeignKey(x => x.CityId);
         }
     }
 }

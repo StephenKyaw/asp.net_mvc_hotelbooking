@@ -245,9 +245,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RoomBedId");
 
-                    b.HasIndex("BedTypeId")
-                        .IsUnique()
-                        .HasFilter("[BedTypeId] IS NOT NULL");
+                    b.HasIndex("BedTypeId");
 
                     b.HasIndex("RoomId");
 
@@ -267,9 +265,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("RoomFacilityId");
 
-                    b.HasIndex("FacilityTypeId")
-                        .IsUnique()
-                        .HasFilter("[FacilityTypeId] IS NOT NULL");
+                    b.HasIndex("FacilityTypeId");
 
                     b.HasIndex("RoomId");
 
@@ -568,13 +564,12 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Entities.City", "City")
                         .WithMany("Hotels")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("CityId");
 
                     b.HasOne("Domain.Entities.Township", "Township")
                         .WithMany("Hotels")
                         .HasForeignKey("TownshipId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("City");
 
@@ -596,12 +591,12 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Hotel", "Hotel")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.Entities.RoomType", "RoomType")
                         .WithMany("Rooms")
                         .HasForeignKey("RoomTypeId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Hotel");
 
@@ -611,8 +606,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.RoomBed", b =>
                 {
                     b.HasOne("Domain.Entities.BedType", "BedType")
-                        .WithOne("RoomBed")
-                        .HasForeignKey("Domain.Entities.RoomBed", "BedTypeId");
+                        .WithMany("RoomBeds")
+                        .HasForeignKey("BedTypeId");
 
                     b.HasOne("Domain.Entities.Room", "Room")
                         .WithMany("RoomBeds")
@@ -627,8 +622,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.RoomFacility", b =>
                 {
                     b.HasOne("Domain.Entities.FacilityType", "FacilityType")
-                        .WithOne("RoomFacility")
-                        .HasForeignKey("Domain.Entities.RoomFacility", "FacilityTypeId");
+                        .WithMany("RoomFacilities")
+                        .HasForeignKey("FacilityTypeId");
 
                     b.HasOne("Domain.Entities.Room", "Room")
                         .WithMany("RoomFacilities")
@@ -713,7 +708,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.BedType", b =>
                 {
-                    b.Navigation("RoomBed");
+                    b.Navigation("RoomBeds");
                 });
 
             modelBuilder.Entity("Domain.Entities.City", b =>
@@ -725,7 +720,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.FacilityType", b =>
                 {
-                    b.Navigation("RoomFacility");
+                    b.Navigation("RoomFacilities");
                 });
 
             modelBuilder.Entity("Domain.Entities.Hotel", b =>

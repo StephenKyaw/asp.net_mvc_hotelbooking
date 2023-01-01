@@ -7,8 +7,6 @@ namespace Domain.Entities
         public string RoomBedId { get; set; }       
         public string BedTypeId { get; set; }
         public BedType BedType { get; set; }
-
-
         public int NumberOfBeds { get; set; }
 
         public string RoomId { get; set; }

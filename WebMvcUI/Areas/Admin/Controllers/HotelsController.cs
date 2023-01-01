@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text.Json;
+using System.Data;
 
 namespace WebMvcUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = Constants.ROLE_ADMINISTRATORS)]
     [Area("admin")]
     public class HotelsController : Controller
     {
@@ -36,35 +38,9 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             return View(model);
         }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file)
-        {
-            var uploads = @"C:Temp";
-            if (file.Length > 0)
-            {
-                //using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
-                //{
-                //    //await file.CopyToAsync(fileStream);
-                //}
-            }
-
-            HotelPhotoViewModel photo=new HotelPhotoViewModel();
-            photo.FileName = file.FileName;
-
-            TempData.Add("Photo", JsonSerializer.Serialize(photo));
-
-            TempData.Keep("Photo");
-
-            return RedirectToAction("Create");
-        }
-
-        public async Task<IActionResult> Create(string fileName)
+        public async Task<IActionResult> Create()
         {
             ViewBag.Title = "Hotel Create";
-
-            HotelViewModel model=new HotelViewModel();
 
             ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
             contentHeader.Title = "Hotel Create";
@@ -75,35 +51,8 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             ViewData["CityId"] = new SelectList(await _locationService.GetCities(), "CityId", "CityName");
             ViewData["TownshipId"] = new SelectList(await _locationService.GetTownships(), "TownshipId", "TownshipName");
-
-
-            if (TempData.Peek("Photo") != null)
-            {
-                var _photo = JsonSerializer.Deserialize<HotelPhotoViewModel>(TempData.Peek("Photo").ToString());
-                TempData.Remove("Photo");
-
-                List<HotelPhotoViewModel> _photoList =new List<HotelPhotoViewModel>();
-
-                if(TempData.Peek("PhotoList") != null )
-                {
-                    _photoList = JsonSerializer.Deserialize<List<HotelPhotoViewModel>>(TempData.Peek("PhotoList").ToString());
-                    _photoList.Add(_photo);
-
-                    TempData.Add("PhotoList",JsonSerializer.Serialize(_photoList));
-                }
-                else
-                {
-                    _photoList.Add(_photo);
-                    TempData.Add("PhotoList", JsonSerializer.Serialize(_photoList));
-
-                }
-               
-                TempData.Keep("PhotoList");
-
-                model.HotelPhotos = JsonSerializer.Deserialize<List<HotelPhotoViewModel>>(TempData.Peek("PhotoList").ToString());
-            }
-
-            return View(model);
+          
+            return View();
         }
 
         [HttpPost]
@@ -139,7 +88,6 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             return View(model);
         }
-
         public async Task<IActionResult> Edit(string id)
         {
             ViewBag.Title = "Hotel Update";
@@ -170,7 +118,6 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -246,7 +193,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(hotel);
+            return View(BindHotelViewModel(hotel));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -296,14 +243,15 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 Phone_2 = hotel.Phone_2,
                 Phone_3 = hotel.Phone_3,
                 CityId = hotel.CityId,
+                CityName = hotel.City.CityName,
                 TownshipId = hotel.TownshipId,
+                TownshipName = hotel.Township.TownshipName,
                 CreatedBy = hotel.CreatedBy,
                 CreatedDate = hotel.CreatedDate,
                 HotelPhotos = hotel.HotelPhotos.Select(x => new HotelPhotoViewModel { FileName = x.FileName, ContentType = x.ContentType, HotelId = x.HotelId, OriginalFileName = x.OriginalFileName }).ToList()
 
             };
         }
-
         private async Task<List<HotelPhoto>> GetHotelPhotos(IFormFileCollection files, string hotelId)
         {
             List<HotelPhoto> photos = new List<HotelPhoto>();

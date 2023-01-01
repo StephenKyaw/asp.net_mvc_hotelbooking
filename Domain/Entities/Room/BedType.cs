@@ -6,7 +6,7 @@ namespace Domain.Entities
     {
         public string BedTypeId { get; set; }
         public string BedTypeName { get; set; }
-        public virtual RoomBed RoomBed { get; set; }
+        public virtual List<RoomBed> RoomBeds  { get; set; }
 
         public BedType()
         {

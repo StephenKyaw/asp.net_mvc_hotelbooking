@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace WebMvcUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = Constants.ROLE_ADMINISTRATORS)]
     [Area("admin")]
     public class RoomTypesController : Controller
     {

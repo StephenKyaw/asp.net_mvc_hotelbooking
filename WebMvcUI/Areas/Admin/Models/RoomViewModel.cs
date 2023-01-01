@@ -31,13 +31,16 @@ namespace WebMvcUI.Areas.Admin.Models
 
 
         [Display(Name = "Upload Photos")]
-        public IFormFileCollection FileRoomPhotos { get; set; }
+        public IFormFileCollection FileRoomPhotos { get; set; } = new FormFileCollection();
 
+        
+        [Display(Name = "Add Beds.")]
+        [Required(ErrorMessage = "Require Beds.")]
         public string RoomBedsJsonString { get; set; }
 
-        public IEnumerable<RoomPhotoViewModel> RoomPhotos { get; set; }
-        public IEnumerable<RoomBedViewModel> RoomBeds { get; set; }
-        public List<SelectListItem> RoomFacilities { get; set; }
+        public List<RoomPhotoViewModel> RoomPhotos { get; set; } = new List<RoomPhotoViewModel>();
+        public List<RoomBedViewModel> RoomBeds { get; set; } = new List<RoomBedViewModel>();
+        public List<SelectListItem> RoomFacilities { get; set; } = new List<SelectListItem>();
     }
 
     public class JsonDataItem

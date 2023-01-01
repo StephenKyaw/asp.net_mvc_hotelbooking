@@ -9,10 +9,8 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Township> builder)
         {
             builder.HasKey(x => x.TownshipId);
-            builder.HasOne<City>(x => x.City)
-                .WithMany(x => x.Townships)
-                .HasForeignKey(x => x.CityId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<City>(x => x.City).WithMany(x => x.Townships).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany<Hotel>(x => x.Hotels).WithOne(x => x.Township).HasForeignKey(x => x.TownshipId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

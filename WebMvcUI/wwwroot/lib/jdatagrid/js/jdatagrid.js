@@ -139,7 +139,7 @@ function jdatagrid(_options) {
     const created_add_button = () => {
         let add_button = document.createElement('button');
         add_button.innerHTML = 'Add';
-        add_button.className = 'btn btn-success';
+        add_button.className = 'btn btn-secondary';
         add_button.onclick = function (event) {
             event.preventDefault();
             add_button_click_event();
@@ -148,7 +148,7 @@ function jdatagrid(_options) {
     }
     const created_edit_button = (table_row_index, auto_increment_id) => {
         let edit_button = document.createElement('button');
-        edit_button.className = 'btn btn-secondary me-2 btn_edit';
+        edit_button.className = 'btn btn-secondary mr-2 btn_edit';
         edit_button.innerHTML = 'Edit';
         edit_button.id = `item_edit_button_${auto_increment_id}`;
         edit_button.onclick = function (event) {
@@ -207,6 +207,7 @@ function jdatagrid(_options) {
                 let _target_control = document.querySelector(`#${target_controlId}`);
                 _target_control.value = "";
                 _target_control.value = JSON.stringify(data);
+                console.log('data',JSON.stringify(data));
             }
         }
     }

@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 using System.Text.Json;
 
 namespace WebMvcUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = Constants.ROLE_ADMINISTRATORS)]
     [Area("admin")]
     public class RoomsController : Controller
     {
@@ -23,6 +26,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
         {
             ViewBag.Title = "Room Listing";
 
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Room Listing";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "dashboard", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Dashboard" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Room Listing", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             var rooms = await _roomService.GetRooms();
 
             return View(GetViewModels(rooms));
@@ -31,15 +41,24 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Title = "Room Create";
+            
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Room Create";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "rooms", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Room Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Room Create", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
 
             RoomViewModel model = new RoomViewModel();
 
             ViewData["HotelId"] = new SelectList(await _hotelService.GetHotels(), "HotelId", "Name");
             ViewData["RoomTypeId"] = new SelectList(await _roomService.GetRoomTypes(), "RoomTypeId", "RoomTypeName");
 
-            var betTypes = (await _roomService.GetBedTypes())
-                            .Select(x => new { text = x.BedTypeName, value = x.BedTypeId })
+            List<JsonDataItem> betTypes = (await _roomService.GetBedTypes())
+                            .Select(x => new JsonDataItem { text = x.BedTypeName, value = x.BedTypeId })
                             .ToList();
+
+            betTypes.Insert(0,new JsonDataItem { text ="Select One", value = string.Empty});
 
             ViewData["BedTypes"] = JsonSerializer.Serialize(betTypes);
 
@@ -66,27 +85,30 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
                 room.CreatedBy = user != null ? user.UserName : string.Empty;
 
-                model.RoomBeds = JsonSerializer.Deserialize<List<RoomBedViewModel>>(model.RoomBedsJsonString);
-
-                if (model.RoomBeds != null && model.RoomBeds.Count() > 0)
+                if(!string.IsNullOrEmpty(model.RoomBedsJsonString))
                 {
-                    List<RoomBed> roomBeds = new List<RoomBed>();
+                    model.RoomBeds = JsonSerializer.Deserialize<List<RoomBedViewModel>>(model.RoomBedsJsonString);
 
-                    foreach (var item in model.RoomBeds)
+                    if (model.RoomBeds != null && model.RoomBeds.Count() > 0)
                     {
-                        var roomBed = new RoomBed
+                        List<RoomBed> roomBeds = new List<RoomBed>();
+
+                        foreach (var item in model.RoomBeds)
                         {
-                            RoomId = room.RoomId,
-                            BedTypeId = item.BedTypes.FirstOrDefault().value,
-                            NumberOfBeds = Convert.ToInt32(item.NumberOfBeds)
-                        };
+                            var roomBed = new RoomBed
+                            {
+                                RoomId = room.RoomId,
+                                BedTypeId = item.BedTypes.FirstOrDefault().value,
+                                NumberOfBeds = Convert.ToInt32(item.NumberOfBeds)
+                            };
 
-                        roomBeds.Add(roomBed);
+                            roomBeds.Add(roomBed);
+                        }
+
+                        room.RoomBeds = roomBeds;
                     }
-
-                    room.RoomBeds = roomBeds;
                 }
-
+                               
                 if (model.FileRoomPhotos.Count > 0)
                 {
                     room.RoomPhotos = await GetRoomPhotos(model.FileRoomPhotos, room.RoomId);
@@ -127,6 +149,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
         {
             ViewBag.Title = "Room Update";
 
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Room Update";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "rooms", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Room Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Room Update", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
+
             if (id == null)
             {
                 return NotFound();
@@ -153,6 +182,19 @@ namespace WebMvcUI.Areas.Admin.Controllers
             model.RoomFacilities = (await _roomService.GetFacilityTypes())
                             .Select(x => new SelectListItem() { Text = x.FacilityTypeName, Value = x.FacilityTypeId }).ToList();
 
+            if(room.RoomFacilities.Count() > 0)
+            {
+                foreach(var item in model.RoomFacilities)
+                {
+                    var _check = room.RoomFacilities.Any(x => x.FacilityTypeId == item.Value);
+
+                    if(_check)
+                    {
+                        item.Selected = true;
+                    }
+                }
+            }
+
             return View(model);
         }
 
@@ -168,6 +210,66 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User);
+                Room room = await _roomService.GetRoomById(model.Id);
+                room.HotelId = model.HotelId;
+                room.RoomTypeId = model.RoomTypeId;
+                room.Price = model.Price;
+                room.NumberOfRooms = model.NumberOfRooms;
+                room.Rate = model.Rate;
+                room.LastModifiedBy = user != null ? user.UserName : string.Empty;
+                room.LastModifiedDate = DateTime.Now;
+
+                if (!string.IsNullOrEmpty(model.RoomBedsJsonString))
+                {
+                    model.RoomBeds = JsonSerializer.Deserialize<List<RoomBedViewModel>>(model.RoomBedsJsonString);
+
+                    if (model.RoomBeds != null && model.RoomBeds.Count() > 0)
+                    {
+                        List<RoomBed> roomBeds = new List<RoomBed>();
+
+                        foreach (var item in model.RoomBeds)
+                        {
+                            var roomBed = new RoomBed
+                            {
+                                RoomId = room.RoomId,
+                                BedTypeId = item.BedTypes.FirstOrDefault().value,
+                                NumberOfBeds = Convert.ToInt32(item.NumberOfBeds)
+                            };
+
+                            roomBeds.Add(roomBed);
+                        }
+
+                        room.RoomBeds = roomBeds;
+                    }
+                }
+
+                if (model.FileRoomPhotos.Count > 0)
+                {
+                    room.RoomPhotos = await GetRoomPhotos(model.FileRoomPhotos, room.RoomId);
+                }
+
+                var _roomFacilitiesId = model.RoomFacilities.Where(x => x.Selected).Select(x => x.Value).ToList();
+
+                if (_roomFacilitiesId.Count > 0 && _roomFacilitiesId != null)
+                {
+                    List<RoomFacility> _facilityList = new List<RoomFacility>();
+
+                    foreach (var _id in _roomFacilitiesId)
+                    {
+                        RoomFacility roomFacility = new RoomFacility()
+                        {
+                            RoomId = room.RoomId,
+                            FacilityTypeId = _id
+                        };
+
+                        _facilityList.Add(roomFacility);
+                    }
+
+                    room.RoomFacilities = _facilityList;
+                }
+
+                await _roomService.UpdateRoom(room);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -183,6 +285,13 @@ namespace WebMvcUI.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             ViewBag.Title = "Room Delete";
+
+            ContentHeaderViewModel contentHeader = new ContentHeaderViewModel();
+            contentHeader.Title = "Room Delete";
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { ControllerName = "rooms", ActionName = "index", AreaName = "admin", IsActive = false, Title = "Room Listing" });
+            contentHeader.Breadcrumbs.Add(new BreadcrumbViewModel { Title = "Room Delete", IsActive = true });
+
+            ViewData["ContentHeader"] = contentHeader;
 
             if (string.IsNullOrEmpty(id))
             {
@@ -289,7 +398,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 ContentType = x.ContentType,
                 FileName = x.FileName,
                 OriginalFileName = x.OriginalFileName,
-            });
+            }).ToList();
 
             return model;
         }

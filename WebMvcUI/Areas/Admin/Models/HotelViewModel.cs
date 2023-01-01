@@ -50,12 +50,9 @@ namespace WebMvcUI.Areas.Admin.Models
         [Display(Name = "Photo")]
         public List<HotelPhotoViewModel> HotelPhotos { get; set; } = new List<HotelPhotoViewModel>();
 
-
+        [Required(ErrorMessage ="Require Hotel Photos")]
         [Display(Name = "Upload Photos")]
         public IFormFileCollection FileRoomPhotos { get; set; } = new FormFileCollection();
-
-        [TempData]
-        public string Message { get;set;}
     }
 
     public class HotelPhotoViewModel

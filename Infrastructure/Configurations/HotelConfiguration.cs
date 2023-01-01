@@ -10,9 +10,11 @@ namespace Infrastructure.Configurations
         {
             builder.HasKey(x => x.HotelId);
 
-            builder.HasOne<City>(c => c.City).WithMany(x => x.Hotels).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne<City>(c => c.City).WithMany(x => x.Hotels).HasForeignKey(x => x.CityId);
 
-            builder.HasOne<Township>(t => t.Township).WithMany(x => x.Hotels).HasForeignKey(x => x.TownshipId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne<Township>(t => t.Township).WithMany(x => x.Hotels).HasForeignKey(x => x.TownshipId);
+
+            builder.HasMany<Room>(x => x.Rooms).WithOne(x => x.Hotel).HasForeignKey(x => x.HotelId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 
