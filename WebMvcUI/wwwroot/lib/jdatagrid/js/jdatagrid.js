@@ -237,14 +237,29 @@ function jdatagrid(_options) {
             delete_button.innerHTML = "Delete";
             render_table_rows();
         }
+
+        if (typeof (target_controlId) != 'undefined' && target_controlId != "") {
+            let _target_control = document.querySelector(`#${target_controlId}`);
+            _target_control.value = "";
+            _target_control.value = JSON.stringify(data);
+            console.log('data', JSON.stringify(data));
+        }
     }
     const delete_button_click_event = (auto_increment_id) => {
         let delete_button = table_instance.querySelector(`#item_delete_button_${auto_increment_id}`);
         if (delete_button.innerHTML == "Delete") {
+            console.log('auto_increment_id', auto_increment_id);
             data.splice((auto_increment_id - 1), 1);;
             render_table_rows();
         } else if (delete_button.innerHTML == "Cancel") {
             render_table_rows();
+        }
+
+        if (typeof (target_controlId) != 'undefined' && target_controlId != "") {
+            let _target_control = document.querySelector(`#${target_controlId}`);
+            _target_control.value = "";
+            _target_control.value = JSON.stringify(data);
+            console.log('data', JSON.stringify(data));
         }
     }
     /* end add, edit, delete button & click event handler*/

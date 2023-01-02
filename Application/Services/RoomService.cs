@@ -79,7 +79,7 @@ namespace Application.Services
 
         public BedType GetBedTypeById(string id)
         {
-            return _bedTypeRepository.FirstOrDefault(x => x.BedTypeId== id);
+            return _bedTypeRepository.FirstOrDefault(x => x.BedTypeId == id);
         }
 
         public async Task<BedType> GetBedTypeByIdAsync(string id)
@@ -136,19 +136,6 @@ namespace Application.Services
 
         public async Task UpdateRoom(Room room)
         {
-            //delete room items
-            var roomBeds = await _roomBedRepository.GetAsync(x => x.RoomId == room.RoomId);
-            _roomBedRepository.RemoveRange(roomBeds);
-            _roomBedRepository.SaveChanges();
-
-            var roomFacilities = await _roomFacilityRepository.GetAsync(x => x.RoomId == room.RoomId);
-            _roomFacilityRepository.RemoveRange(roomFacilities);
-            _roomFacilityRepository.SaveChanges();
-
-            var roomPhotos = await _roomPhotoRepository.GetAsync(x => x.RoomId == room.RoomId);
-            _roomPhotoRepository.RemoveRange(roomPhotos);
-            _roomPhotoRepository.SaveChanges();
-
             _roomRepository.Update(room);
             await _roomRepository.SaveChangesAsync();
         }

@@ -51,7 +51,7 @@ namespace WebMvcUI.Areas.Admin.Models
 
     public class RoomBedViewModel
     {
-        public List<JsonDataItem> BedTypes { get; set; }
+        public List<JsonDataItem> BedTypes { get; set; } = new List<JsonDataItem>();
         public string NumberOfBeds { get; set; }
     }
 

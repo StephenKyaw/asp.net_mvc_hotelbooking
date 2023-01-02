@@ -51,7 +51,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             }
 
-            return RedirectToAction("index", "home", new { area = "" });
+            return RedirectToAction("login", "account", new { area = "admin" });
         }
 
         [HttpGet]
