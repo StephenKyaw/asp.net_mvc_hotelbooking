@@ -89,7 +89,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 {
                     model.RoomBeds = JsonSerializer.Deserialize<List<RoomBedViewModel>>(model.RoomBedsJsonString);
 
-                    if (model.RoomBeds != null && model.RoomBeds.Count > 0)
+                    if (model.RoomBeds != null && model.RoomBeds.Count() > 0)
                     {
                         List<RoomBed> roomBeds = new List<RoomBed>();
 
@@ -223,7 +223,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 {
                     model.RoomBeds = JsonSerializer.Deserialize<List<RoomBedViewModel>>(model.RoomBedsJsonString);
 
-                    if (model.RoomBeds != null && model.RoomBeds.Count > 0)
+                    if (model.RoomBeds != null && model.RoomBeds.Count() > 0)
                     {
                         List<RoomBed> roomBeds = new List<RoomBed>();
 

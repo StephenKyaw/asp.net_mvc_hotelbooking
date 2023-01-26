@@ -1,23 +1,26 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.Json;
 using WebMvcUI.Models;
 
 namespace WebMvcUI.Controllers
 {
-    [AllowAnonymous]
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IRoomService _roomService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IRoomService roomService)
         {
-            _logger = logger;
+            _roomService = roomService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var rooms = await _roomService.GetRooms();
+
+            return View(GetViewModels(rooms));
         }
 
         public IActionResult Privacy()
@@ -29,6 +32,49 @@ namespace WebMvcUI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private IEnumerable<RoomViewModel> GetViewModels(IEnumerable<Room> rooms)
+        {
+            return rooms.Select(x => BindViewModel(x));
+        }
+
+        private RoomViewModel BindViewModel(Room room)
+        {
+            RoomViewModel model = new RoomViewModel();
+            model.Id = room.RoomId;
+            model.HotelId = room.HotelId;
+            model.HotelName = room.Hotel.Name;
+            model.RoomTypeId = room.RoomTypeId;
+            model.RoomTypeName = room.RoomType.RoomTypeName;
+            model.Price = room.Price;
+            model.Rate = room.Rate;
+            model.NumberOfRooms = room.NumberOfRooms;
+
+            if (room.RoomBeds != null)
+            {
+                List<RoomBedViewModel> roomBedViewModels = new List<RoomBedViewModel>();
+                foreach (var roomBed in room.RoomBeds)
+                {
+                    RoomBedViewModel roomBedViewModel = new RoomBedViewModel();
+                    string _bedTypeName = _roomService.GetBedTypeById(roomBed.BedTypeId).BedTypeName;
+                    roomBedViewModel.BedTypes = new List<JsonDataItem>() { new JsonDataItem { text = _bedTypeName, value = roomBed.BedTypeId } };
+                    roomBedViewModel.NumberOfBeds = roomBed.NumberOfBeds.ToString();
+                    roomBedViewModels.Add(roomBedViewModel);
+                }
+                model.RoomBeds = roomBedViewModels;
+                model.RoomBedsJsonString = JsonSerializer.Serialize(model.RoomBeds.ToList());
+            }
+
+            model.RoomPhotos = room.RoomPhotos.Select(x => new RoomPhotoViewModel
+            {
+                RoomId = x.RoomId,
+                ContentType = x.ContentType,
+                FileName = x.FileName,
+                OriginalFileName = x.OriginalFileName,
+            }).ToList();
+
+            return model;
         }
     }
 }
