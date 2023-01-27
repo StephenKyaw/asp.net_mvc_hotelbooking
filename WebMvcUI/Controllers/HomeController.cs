@@ -20,7 +20,7 @@ namespace WebMvcUI.Controllers
         {
             var rooms = await _roomService.GetRooms();
 
-            return View(GetViewModels(rooms));
+            return View(rooms);
         }
 
         public IActionResult Privacy()
