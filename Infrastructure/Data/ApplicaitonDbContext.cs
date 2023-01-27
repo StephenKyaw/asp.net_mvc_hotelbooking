@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Bookings;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,9 @@ namespace Infrastructure
         public DbSet<RoomBed> RoomBeds { get; set; }
         public DbSet<RoomPhoto> RoomPhotos { get; set; }
         public DbSet<RoomFacility> RoomFacilities { get; set; }
+
+        public DbSet<Booking> Bookings { get; set; }    
+        public DbSet<BookingItem> BookingItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Panda Hotels";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="text-primary">Booking Confirmation Complete</h1>
+        <p class="lead text-muted">@ViewBag.Message</p>
+        <p>
+            <a asp-action="index" asp-controller="home" class="btn btn-primary my-2">Back to Home Page</a>
+        </p>
+    </div>
+</section>

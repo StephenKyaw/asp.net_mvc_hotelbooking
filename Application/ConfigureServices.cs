@@ -11,6 +11,7 @@ namespace Application
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IBookingService, BookingService>();
 
             return services;
         }

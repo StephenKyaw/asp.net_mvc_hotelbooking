@@ -82,7 +82,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var facilityType = await _roomService.GetFacilityTypeById(id);
+            var facilityType = await _roomService.GetFacilityTypeByIdAsync(id);
 
             if (facilityType == null)
             {
@@ -103,7 +103,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                var facilityTypeUpdate = await _roomService.GetFacilityTypeById(model.FacilityTypeId);
+                var facilityTypeUpdate = await _roomService.GetFacilityTypeByIdAsync(model.FacilityTypeId);
 
 
                 if (facilityTypeUpdate != null)
@@ -138,7 +138,7 @@ namespace WebMvcUI.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var facilityType = await _roomService.GetFacilityTypeById(id);
+            var facilityType = await _roomService.GetFacilityTypeByIdAsync(id);
 
             if (facilityType == null)
             {

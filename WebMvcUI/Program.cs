@@ -4,8 +4,13 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddInfrastructure();
@@ -55,6 +60,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSession();
 
 app.MapAreaControllerRoute(name: "Admin", areaName: "Admin",
     pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");

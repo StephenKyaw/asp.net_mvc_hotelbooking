@@ -92,7 +92,12 @@ namespace Application.Services
             return await _bedTypeRepository.GetAllAsync();
         }
 
-        public async Task<FacilityType> GetFacilityTypeById(string id)
+        public FacilityType GetFacilityTypeById(string id)
+        {
+            return _facilityTypeRepository.FirstOrDefault(x => x.FacilityTypeId == id);
+        }
+
+        public async Task<FacilityType> GetFacilityTypeByIdAsync(string id)
         {
             return await _facilityTypeRepository.GetByIdAsync(id);
         }

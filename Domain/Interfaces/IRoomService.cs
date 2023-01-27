@@ -22,7 +22,8 @@ namespace Domain.Interfaces
 
 
         Task<IEnumerable<FacilityType>> GetFacilityTypes();
-        Task<FacilityType> GetFacilityTypeById(string id);
+        Task<FacilityType> GetFacilityTypeByIdAsync(string id);
+        FacilityType GetFacilityTypeById(string id);
         Task AddFacilityType(FacilityType facilityType);
         Task UpdateFacilityType(FacilityType facilityType);
         Task DeleteFacilityType(string id);

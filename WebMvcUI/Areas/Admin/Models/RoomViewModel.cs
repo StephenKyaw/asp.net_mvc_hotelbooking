@@ -41,6 +41,8 @@ namespace WebMvcUI.Areas.Admin.Models
         public List<RoomPhotoViewModel> RoomPhotos { get; set; } = new List<RoomPhotoViewModel>();
         public List<RoomBedViewModel> RoomBeds { get; set; } = new List<RoomBedViewModel>();
         public List<SelectListItem> RoomFacilities { get; set; } = new List<SelectListItem>();
+
+        public List<string> RoomFacilityList = new List<string>();
     }
 
     public class JsonDataItem

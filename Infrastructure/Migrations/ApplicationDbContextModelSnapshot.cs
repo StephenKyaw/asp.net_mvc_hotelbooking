@@ -47,6 +47,69 @@ namespace Infrastructure.Migrations
                     b.ToTable("BedTypes");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Bookings.Booking", b =>
+                {
+                    b.Property<string>("BookingID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CustomerID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsConfirm")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("BookingID");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Bookings.BookingItem", b =>
+                {
+                    b.Property<string>("BookingItemID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BedTypes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BookingID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RoomId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BookingItemID");
+
+                    b.HasIndex("BookingID");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("BookingItems");
+                });
+
             modelBuilder.Entity("Domain.Entities.City", b =>
                 {
                     b.Property<string>("CityId")
@@ -411,6 +474,9 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -558,6 +624,21 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Bookings.BookingItem", b =>
+                {
+                    b.HasOne("Domain.Entities.Bookings.Booking", "Booking")
+                        .WithMany("BookingItems")
+                        .HasForeignKey("BookingID");
+
+                    b.HasOne("Domain.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Domain.Entities.Hotel", b =>
@@ -709,6 +790,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.BedType", b =>
                 {
                     b.Navigation("RoomBeds");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Bookings.Booking", b =>
+                {
+                    b.Navigation("BookingItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.City", b =>

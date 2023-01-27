@@ -1,0 +1,62 @@
+﻿@model BookingViewModel
+@{
+    ViewData["Title"] = "Panda Hotels";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<form asp-action="BookingConfirm">
+
+    <div class="row mb-3">
+        <div class="col-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label  class="control-label">Email</label>
+                <input asp-for="CustomerName" disabled class="form-control" />
+                <span asp-validation-for="BookingDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BookingDate" class="control-label"></label>
+                <input asp-for="BookingDate" class="form-control" />
+                <span asp-validation-for="BookingDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Remark" class="control-label"></label>
+                <input asp-for="Remark" class="form-control" />
+                <span asp-validation-for="BookingDate" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Description</th>
+            <th>Number of Rooms</th>
+            <th>Price</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.BookingItems)
+        {
+            <tr>
+                <td>@item.Description</td>
+                <td>@item.NumberOfRooms</td>
+                <td>@item.Price USD</td>
+                <td>@item.Amount USD</td>
+                <td>
+                    <a class="btn btn-danger" asp-route-id="@item.Id" asp-action="RemoveBookingItem">Back to List</a>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">Total Amount</td>
+            <td>@Model.TotalAmount USD</td>
+        </tr>
+    </table>
+    <div class="form-group mb-3 d-flex">
+        <input type="submit" value="Confirm" class="btn btn-success mr-2" />
+        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+    </div>
+</form>
