@@ -52,7 +52,11 @@
                         <div class="d-flex justify-content-between align-items-center">
                             @if (SignInManager.IsSignedIn(User))
                             {
-                                <a asp-controller="Home" asp-action="Reserve" asp-route-id="@item.Id" class="btn btn-primary">Reserve </a>
+                                <form asp-action="Reserve" asp-controller="Home">
+                                    <input type="hidden" name="id" id="id" value="@item.Id">
+                                    <button type="submit" class="btn btn-primary">Reserve</button>
+                                </form>
+                                @*<a asp-controller="Home" asp-action="Reserve" asp-route-id="@item.Id" class="btn btn-primary">Reserve </a>*@
                             }
                             else
                             {

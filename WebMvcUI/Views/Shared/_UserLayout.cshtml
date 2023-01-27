@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using WebMvcUI.Extensions
+@inject IHttpContextAccessor Accessor
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -17,7 +19,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
     <style>
         .bd-placeholder-img {
@@ -45,11 +47,29 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4  bg-white border-bottom shadow-sm">
         <a asp-action="index" asp-controller="home" class="text-decoration-none my-0 mr-md-auto font-weight-bold"><h5 class="">Panda Hotels Booking</h5></a>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark" href="#">Features</a>
-            <a class="p-2 text-dark" href="#">Enterprise</a>
-            <a class="p-2 text-dark" href="#">Support</a>
-            <a class="p-2 text-dark" href="#">Pricing</a>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a class="p-2 text-dark text-decoration-none" asp-action="Reserve" asp-controller="Home">Booking Confirmation</a>
+            }
+            else
+            {
+                <a class="p-2 text-dark text-decoration-none disabled" href="#"  >Booking Confirmation</a>
+            }
+             
+            
         </nav>
+        @{
+            var sessionValues = Accessor.HttpContext.Session.Get<List<BookingItemViewModel>>("Booking");
+
+            if(sessionValues != null)
+            {
+                <span class="nav-link d-flex align-items-center">
+                    <a asp-controller="Home" asp-action="Reserve" class="btn btn-light">
+                        <i class="bi bi-bag-check-fill mr-1"></i> <span class="">@sessionValues.Count()</span>
+                    </a>
+                </span>
+            }
+        }
         @if (SignInManager.IsSignedIn(User))
         {
             <span class="nav-link d-flex align-items-center">

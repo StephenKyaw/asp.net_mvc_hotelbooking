@@ -9,22 +9,11 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Xml.Linq;
 using WebMvcUI.Models;
+using WebMvcUI.Extensions;
 
 namespace WebMvcUI.Controllers
 {
-    public static class SessionExtensions
-    {
-        public static void Set<T>(this ISession session, string key, T value)
-        {
-            session.SetString(key, JsonConvert.SerializeObject(value));
-        }
-
-        public static T Get<T>(this ISession session, string key)
-        {
-            var value = session.GetString(key);
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
-        }
-    }
+   
 
     public class HomeController : Controller
     {
@@ -125,6 +114,24 @@ namespace WebMvcUI.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Reserve()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            BookingViewModel model = new BookingViewModel();
+
+            List<BookingItemViewModel> bookingList = GetBookingList();
+
+
+            model.BookingItems = bookingList;
+            model.TotalAmount = bookingList.Sum(x => x.Amount);
+            model.CustomerName = user.UserName;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reserve(string id)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -153,7 +160,8 @@ namespace WebMvcUI.Controllers
             model.BookingItems = bookingList;
             model.TotalAmount = bookingList.Sum(x => x.Amount);
             model.CustomerName = user.UserName;
-            return View(model);
+
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult RemoveBookingItem(string id)
         {

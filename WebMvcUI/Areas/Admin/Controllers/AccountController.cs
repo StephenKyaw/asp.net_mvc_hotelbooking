@@ -45,6 +45,9 @@ namespace WebMvcUI.Areas.Admin.Controllers
                         if (_isAdminRole)
                         {
                             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                        }else
+                        {
+                            return RedirectToAction("Index","Home", new { area = "" });
                         }
                     }
                 }
