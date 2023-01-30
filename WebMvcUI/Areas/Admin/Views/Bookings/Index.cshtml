@@ -1,0 +1,108 @@
+﻿@model IEnumerable<BookingsViewModel>
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="table" class="table table-bordered table-striped text-nowrap">
+                    <thead class="text-primary text-capitalize">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BookingDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CustomerName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TotalAmount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BookingDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CustomerName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remark)
+                                </td>
+                                <td>
+                                    <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil-square"></i> Confirm</a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"> <i class="bi bi-trash3"></i> Cancel</a>
+                                </td>
+                            </tr>
+
+                            if(item.Items.Count > 0)
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <table class="table table-bordered table-striped text-nowrap">
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>RoomType</th>
+                                                <th>HotelName</th>
+                                                <th>Township</th>
+                                                <th>City</th>
+                                                <td>Price</td>
+                                                <td>NumberOfRooms</td>
+                                                <th>Amount</th>
+                                            </tr>
+                                            @foreach (var _item in item.Items)
+                                            {
+                                                <tr>
+                                                    <td>@_item.Description</td>
+                                                    <td>@_item.RoomType</td>
+                                                    <td>@_item.HotelName</td>
+                                                    <td>@_item.Township</td>
+                                                    <td>@_item.City</td>
+                                                    <td>@_item.price</td>
+                                                    <td>@_item.NumberOfRooms</td>
+                                                    <td>@_item.Amount</td>
+                                                </tr>
+                                            }
+                                        </table>
+
+                                       
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <a class="btn btn-secondary" asp-action="Create">Create New</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        $(function () {
+            $("#table").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+}
